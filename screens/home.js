@@ -11,10 +11,10 @@ const HomeScreen = ({ navigation }) => {
         }}
       />
       < Button
-        title="Activity"
+        title="Log Activity"
         onPress={() => {
           console.log("Pressed!");
-          navigation.navigate("Activity");
+          navigation.navigate("Log Activity");
         }}
       />
       < Button

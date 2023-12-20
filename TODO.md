@@ -5,6 +5,9 @@
 - [x] Basic screen navigation
 - [x] Activity input screen
 - [ ] Basic home screen
+  - [ ] Icon
+  - [ ] Buttons at bottom
+  - [ ] Average spoons
 - [ ] Symptom input screen
 - [ ] Dummy data file
   - [ ] sqlite?
