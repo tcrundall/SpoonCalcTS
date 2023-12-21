@@ -4,14 +4,15 @@
 
 - [x] Basic screen navigation
 - [x] Activity input screen
-- [ ] Basic home screen
-  - [ ] Icon
-  - [ ] Buttons at bottom
-  - [ ] Average spoons
+- [x] Basic home screen
+  - [x] Icon
+  - [x] Buttons at bottom
+  - [x] Average spoons
 - [ ] Symptom input screen
 - [ ] Dummy data file
   - [ ] sqlite?
   - [ ] Can prepare data with python...?
+- [ ] Fix bug: button margins don't appear immediately
 
 ## Functionality
 
