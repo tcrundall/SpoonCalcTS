@@ -5,6 +5,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import HomeScreen from './screens/home';
 import LogsScreen from './screens/logs';
 import ActivityScreen from './screens/activity';
+import SymptomsScreen from './screens/symptoms';
 import DataScreen from './screens/data';
 import PlotsScreen from './screens/plots';
 
@@ -14,7 +15,7 @@ const Stack = createNativeStackNavigator()
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator initialRouteName="Log Symptoms">
         <Stack.Screen
           name="Home"
           component={HomeScreen}
@@ -22,6 +23,10 @@ export default function App() {
         <Stack.Screen
           name="Log Activity"
           component={ActivityScreen}
+        />
+        <Stack.Screen
+          name="Log Symptoms"
+          component={SymptomsScreen}
         />
         <Stack.Screen
           name="Data"

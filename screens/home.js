@@ -64,6 +64,17 @@ const HomeScreen = ({ navigation }) => {
         </View>
         <View style={styles.buttonContainer}>
           < Button
+            title="Log Symptoms"
+            onPress={() => {
+              console.log("Pressed!");
+              navigation.navigate("Log Symptoms");
+            }}
+            titleStyle={styles.buttonTitle}
+            buttonStyle={styles.button}
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          < Button
             title="Plots"
             onPress={() => {
               console.log("Pressed!");
