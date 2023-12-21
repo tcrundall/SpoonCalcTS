@@ -1,4 +1,4 @@
-import { Text, View, Image } from "react-native";
+import { Text, View, Image, StyleSheet } from "react-native";
 import { Button } from 'react-native-elements';
 
 const HomeScreen = ({ navigation }) => {
@@ -23,10 +23,6 @@ const HomeScreen = ({ navigation }) => {
           source={
             require('../assets/spoon_icon_splash.png')
           }
-          // source={{
-          //   uri: 'https://reactnative.dev/img/tiny_logo.png'
-          //   // uri: './assets/spoon_icon.png'
-          // }}
           style={{
             width: 300,
             height: 300,
@@ -111,7 +107,7 @@ const HomeScreen = ({ navigation }) => {
   );
 };
 
-styles = {
+styles = StyleSheet.create({
   buttonTitle: {
     fontSize: 20,
   },
@@ -121,6 +117,6 @@ styles = {
   buttonContainer: {
     margin: 10,
   },
-}
+})
 
 export default HomeScreen;

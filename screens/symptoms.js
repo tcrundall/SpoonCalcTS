@@ -1,6 +1,6 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useState } from "react";
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, StyleSheet } from "react-native";
 import { View, Text, Button, TextInput } from "react-native";
 import { ButtonGroup } from "react-native-elements";
 
@@ -78,7 +78,7 @@ const SymptomsScreen = ({ navigation }) => {
   );
 };
 
-styles = {
+styles = StyleSheet.create({
   h1: {
     textAlign: "center",
     fontSize: 40,
@@ -91,6 +91,6 @@ styles = {
     textAlign: "center",
     fontSize: 15,
   }
-}
+})
 
 export default SymptomsScreen;
