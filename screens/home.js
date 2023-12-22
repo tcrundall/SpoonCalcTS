@@ -107,7 +107,7 @@ const HomeScreen = ({ navigation }) => {
   );
 };
 
-styles = StyleSheet.create({
+const styles = StyleSheet.create({
   buttonTitle: {
     fontSize: 20,
   },

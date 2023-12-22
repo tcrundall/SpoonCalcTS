@@ -8,7 +8,7 @@
   - [x] Icon
   - [x] Buttons at bottom
   - [x] Average spoons
-- [ ] Symptom input screen
+- [x] Symptom input screen
 - [ ] Dummy data file
   - [ ] sqlite?
   - [ ] Can prepare data with python...?
@@ -16,6 +16,7 @@
 
 ## Functionality
 
+- [ ] Refactor
 - [ ] Deploy
 - [ ] Install
 - [ ] Data persistence
