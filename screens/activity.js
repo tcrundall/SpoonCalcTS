@@ -1,8 +1,9 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useState } from "react";
-import { SafeAreaView, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native";
 import { View, Text, Button, TextInput } from "react-native";
 import { ButtonGroup } from "react-native-elements";
+import styles from "../styles";
 
 const getRoundedDate = (d = new Date()) => {
   const roundInMs = 1000 * 60 * 15;  // 15 minutes in milliseconds
@@ -113,7 +114,7 @@ const ActivityScreen = ({ navigation }) => {
       }
       <Text style={styles.h2}>Cognitive Load</Text>
       <ButtonGroup
-        buttons={["VERY_LOW", "LOW", "MID", "HIGH", "VERY_HIGH"]}
+        buttons={["NONE", "LOW", "MID", "HIGH", "VERY_HIGH"]}
         selectedIndex={cognitiveLoad}
         onPress={(value) => {
           setCognitiveLoad(value);
@@ -121,7 +122,7 @@ const ActivityScreen = ({ navigation }) => {
       />
       <Text style={styles.h2}>Physical Load</Text>
       <ButtonGroup
-        buttons={["VERY_LOW", "LOW", "MID", "HIGH", "VERY_HIGH"]}
+        buttons={["NONE", "LOW", "MID", "HIGH", "VERY_HIGH"]}
         selectedIndex={physicalLoad}
         onPress={(value) => {
           setPhysicalLoad(value);
@@ -189,20 +190,5 @@ const ActivityScreen = ({ navigation }) => {
     </SafeAreaView>
   );
 };
-
-styles = StyleSheet.create({
-  h1: {
-    textAlign: "center",
-    fontSize: 40,
-  },
-  h2: {
-    textAlign: "center",
-    fontSize: 20,
-  },
-  h3: {
-    textAlign: "center",
-    fontSize: 15,
-  }
-})
 
 export default ActivityScreen;

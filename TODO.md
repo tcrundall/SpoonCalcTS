@@ -9,14 +9,16 @@
   - [x] Buttons at bottom
   - [x] Average spoons
 - [x] Symptom input screen
-- [ ] Dummy data file
-  - [ ] sqlite?
-  - [ ] Can prepare data with python...?
-- [ ] Fix bug: button margins don't appear immediately
+- [x] Dummy data file (SKIPPED: old app not buildable, can't generate example file)
+  - [x] sqlite?
+  - [x] Can prepare data with python...?
+- [x] Fix bug: button margins don't appear immediately
 
 ## Functionality
 
 - [ ] Refactor
+  - [ ] make components
+  - [ ] centralize styles
 - [ ] Deploy
 - [ ] Install
 - [ ] Data persistence
