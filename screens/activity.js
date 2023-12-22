@@ -2,7 +2,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { useState } from "react";
 import { SafeAreaView } from "react-native";
 import { View, Text, Button, TextInput } from "react-native";
-import { ButtonGroup } from "react-native-elements";
+import MyButtonGroup from "../components/buttongroup";
 import styles from "../styles";
 
 const getRoundedDate = (d = new Date()) => {
@@ -23,7 +23,7 @@ const ActivityScreen = ({ navigation }) => {
   const [endMode, setEndMode] = useState('date');
   const [endShow, setEndShow] = useState(false);
 
-  const onStartChange = (event, selectedDate) => {
+  const onStartChange = (_, selectedDate) => {
     const currentDate = selectedDate;
     setStartShow(false);
     setStartDate(getRoundedDate(currentDate));
@@ -42,7 +42,7 @@ const ActivityScreen = ({ navigation }) => {
     showStartMode('time');
   };
 
-  const onEndChange = (event, selectedDate) => {
+  const onEndChange = (_, selectedDate) => {
     const currentDate = selectedDate;
     setEndShow(false);
     setEndDate(getRoundedDate(currentDate));
@@ -112,57 +112,18 @@ const ActivityScreen = ({ navigation }) => {
           onChange={onEndChange}
         />
       }
-      <Text style={styles.h2}>Cognitive Load</Text>
-      <ButtonGroup
-        buttons={["NONE", "LOW", "MID", "HIGH", "VERY_HIGH"]}
-        selectedIndex={cognitiveLoad}
-        onPress={(value) => {
-          setCognitiveLoad(value);
-        }}
-      />
-      <Text style={styles.h2}>Physical Load</Text>
-      <ButtonGroup
-        buttons={["NONE", "LOW", "MID", "HIGH", "VERY_HIGH"]}
-        selectedIndex={physicalLoad}
-        onPress={(value) => {
-          setPhysicalLoad(value);
-        }}
-      />
-      <Text style={styles.h2}>Category</Text>
-      <ButtonGroup
-        buttons={[
-          "necessary",
-          "leisure",
-          "rest",
-          "productive",
-          "social",
-        ]}
-        selectedIndex={activityType}
-        onPress={(value) => {
-          setActivityType(value);
-        }}
-      />
-      <Text style={styles.h2}>Modifier</Text>
-      < ButtonGroup
-        buttons={
-          [
-            "phone",
-            "screen",
-            "exercise",
-            "boost",
-            "misc",
-          ]}
-        selectedIndex={activityQualifier}
-        onPress={(value) => {
-          setActivityQualifier(value);
-        }}
-      />
+      {MyButtonGroup("Cognitive Load", cognitiveLoad, setCognitiveLoad)}
+      {MyButtonGroup("Physical Load", physicalLoad, setPhysicalLoad)}
+      {MyButtonGroup("Category", activityType, setActivityType,
+        ["necessary", "leisure", "rest", "productive", "social",]
+      )}
+      {MyButtonGroup("Modifier", activityQualifier, setActivityQualifier,
+        ["phone", "screen", "exercise", "boost", "misc",]
+      )}
       <View style={{
         flexDirection: "row",
-        // alignItems: "center",
         alignContent: "stretch",
         justifyContent: "center",
-        // flex: 1,
       }}>
         <View style={{
           flex: 0.5,
