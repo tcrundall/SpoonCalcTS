@@ -10,13 +10,17 @@ const SymptomsScreen = ({ navigation }) => {
   const [fatigue, setFatigue] = useState();
   const [fluLike, setFluLike] = useState();
   return (
-    <SafeAreaView>
-      {MyButtonGroup("Pain", pain, setPain)}
-      {MyButtonGroup("Nausea", nausea, setNausea)}
-      {MyButtonGroup("Fatigue", fatigue, setFatigue)}
-      {MyButtonGroup("FluLike", fluLike, setFluLike)}
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ flex: 9, margin: 5, }}>
+        {MyButtonGroup("Pain", pain, setPain)}
+        {MyButtonGroup("Nausea", nausea, setNausea)}
+        {MyButtonGroup("Fatigue", fatigue, setFatigue)}
+        {MyButtonGroup("FluLike", fluLike, setFluLike)}
+      </View>
 
-      {FooterButton(navigation, "Saved symptoms")}
+      <View style={{ flex: 1 }}>
+        {FooterButton(navigation, "Saved symptoms")}
+      </View>
     </SafeAreaView>
   );
 };

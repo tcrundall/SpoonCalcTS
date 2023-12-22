@@ -16,13 +16,14 @@
 
 ## Functionality
 
-- [ ] Refactor
-  - [ ] make components
-  - [ ] centralize styles
-- [ ] Deploy
-- [ ] Install
+- [x] Refactor
+  - [x] make components
+  - [x] centralize styles
 - [ ] Data persistence
   - [Many options](https://taglineinfotech.com/react-native-database/)
+    - [sqlite](https://www.npmjs.com/package/react-native-sqlite-storage)
+- [ ] Deploy
+- [ ] Install
 - [ ] Log display
 - [ ] Activity plotting screen
 

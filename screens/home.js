@@ -38,6 +38,7 @@ const HomeScreen = ({ navigation }) => {
           flex: 1,
           // justifyContent: "space-around",
           justifyContent: "space-evenly",
+          marginHorizontal: 60,
           marginBottom: 0,
         }}>
           {ButtonLink(navigation, "Log Activity")}

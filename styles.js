@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     borderRadius: 25
   },
   buttonContainer: {
-    marginHorizontal: 20,
+    marginHorizontal: 0,
   },
   h1: {
     textAlign: "center",
@@ -23,6 +23,5 @@ const styles = StyleSheet.create({
     fontSize: 15,
   }
 })
-console.log(styles.h1);
 
 export default styles;
