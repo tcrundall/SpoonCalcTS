@@ -10,16 +10,16 @@ const HomeScreen = ({ navigation }) => {
         alignContent: "center",
         justifyContent: "center",
         padding: 10,
-        flex: 0.1,
+        flex: 0.05,
       }}>
         <Text style={{
-          fontSize: 35,
+          fontSize: 30,
           textAlign: "center",
         }}>{currentDayTotal}/{averageDailyTotal}</Text>
       </View>
       <View style={{
         alignItems: "center",
-          flex: 0.3,
+        flex: 0.55,
       }}>
         <Image
           source={
@@ -27,87 +27,77 @@ const HomeScreen = ({ navigation }) => {
           }
           style={{
             width: "100%",
-            height:  "100%",
+            height: "100%",
             resizeMode: "contain",
             justifyContent: "center",
             alignItems: "center",
           }}
         />
       </View>
-    <View style={{flex: 0.6}}>
-      <View style={{
-        flex: 1,
-        justifyContent: 'flex-end',
-        marginBottom: 0,
-      }}>
-        <View style={styles.buttonContainer}>
-          < Button
-            title="Go home...?"
-            onPress={() => {
-              console.log("Pressed!");
-              navigation.navigate("Home");
-            }}
-            titleStyle={styles.buttonTitle}
-            buttonStyle={styles.button}
-          />
-        </View>
-        <View style={styles.buttonContainer}>
-          < Button
-            title="Log Activity"
-            onPress={() => {
-              console.log("Pressed!");
-              navigation.navigate("Log Activity");
-            }}
-            titleStyle={styles.buttonTitle}
-            buttonStyle={styles.button}
-          />
-        </View>
-        <View style={styles.buttonContainer}>
-          < Button
-            title="Log Symptoms"
-            onPress={() => {
-              console.log("Pressed!");
-              navigation.navigate("Log Symptoms");
-            }}
-            titleStyle={styles.buttonTitle}
-            buttonStyle={styles.button}
-          />
-        </View>
-        <View style={styles.buttonContainer}>
-          < Button
-            title="Plots"
-            onPress={() => {
-              console.log("Pressed!");
-              navigation.navigate("Plots");
-            }}
-            titleStyle={styles.buttonTitle}
-            buttonStyle={styles.button}
-          />
-        </View>
-        <View style={styles.buttonContainer}>
-          < Button
-            title="Logs"
-            onPress={() => {
-              console.log("Pressed!");
-              navigation.navigate("Logs");
-            }}
-            titleStyle={styles.buttonTitle}
-            buttonStyle={styles.button}
-          />
-        </View>
-        <View style={styles.buttonContainer}>
-          < Button
-            title="Data"
-            onPress={() => {
-              console.log("Pressed!");
-              navigation.navigate("Data");
-            }}
-            titleStyle={styles.buttonTitle}
-            buttonStyle={styles.button}
-          />
+      <View style={{ flex: 0.4 }}>
+        <View style={{
+          flex: 1,
+          // justifyContent: 'space-around',
+          justifyContent: "space-evenly",
+          marginBottom: 0,
+        }}>
+          <View style={styles.buttonContainer}>
+            < Button
+              title="Log Activity"
+              onPress={() => {
+                console.log("Pressed!");
+                navigation.navigate("Log Activity");
+              }}
+              titleStyle={styles.buttonTitle}
+              buttonStyle={styles.button}
+            />
+          </View>
+          <View style={styles.buttonContainer}>
+            < Button
+              title="Log Symptoms"
+              onPress={() => {
+                console.log("Pressed!");
+                navigation.navigate("Log Symptoms");
+              }}
+              titleStyle={styles.buttonTitle}
+              buttonStyle={styles.button}
+            />
+          </View>
+          <View style={styles.buttonContainer}>
+            < Button
+              title="Plots"
+              onPress={() => {
+                console.log("Pressed!");
+                navigation.navigate("Plots");
+              }}
+              titleStyle={styles.buttonTitle}
+              buttonStyle={styles.button}
+            />
+          </View>
+          <View style={styles.buttonContainer}>
+            < Button
+              title="Logs"
+              onPress={() => {
+                console.log("Pressed!");
+                navigation.navigate("Logs");
+              }}
+              titleStyle={styles.buttonTitle}
+              buttonStyle={styles.button}
+            />
+          </View>
+          <View style={styles.buttonContainer}>
+            < Button
+              title="Data"
+              onPress={() => {
+                console.log("Pressed!");
+                navigation.navigate("Data");
+              }}
+              titleStyle={styles.buttonTitle}
+              buttonStyle={styles.button}
+            />
+          </View>
         </View>
       </View>
-    </View>
     </>
   );
 };
@@ -120,7 +110,7 @@ const styles = StyleSheet.create({
     borderRadius: 25
   },
   buttonContainer: {
-    margin: 10,
+    marginHorizontal: 20,
   },
 })
 
