@@ -9,7 +9,8 @@ const HomeScreen = ({ navigation }) => {
       <View style={{
         alignContent: "center",
         justifyContent: "center",
-        padding: 10
+        padding: 10,
+        flex: 0.1,
       }}>
         <Text style={{
           fontSize: 35,
@@ -18,23 +19,26 @@ const HomeScreen = ({ navigation }) => {
       </View>
       <View style={{
         alignItems: "center",
+          flex: 0.3,
       }}>
         <Image
           source={
             require('../assets/spoon_icon_splash.png')
           }
           style={{
-            width: 300,
-            height: 300,
+            width: "100%",
+            height:  "100%",
+            resizeMode: "contain",
             justifyContent: "center",
             alignItems: "center",
           }}
         />
       </View>
+    <View style={{flex: 0.6}}>
       <View style={{
         flex: 1,
         justifyContent: 'flex-end',
-        marginBottom: 10,
+        marginBottom: 0,
       }}>
         <View style={styles.buttonContainer}>
           < Button
@@ -103,6 +107,7 @@ const HomeScreen = ({ navigation }) => {
           />
         </View>
       </View>
+    </View>
     </>
   );
 };
