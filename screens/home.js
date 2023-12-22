@@ -40,11 +40,11 @@ const HomeScreen = ({ navigation }) => {
           justifyContent: "space-evenly",
           marginBottom: 0,
         }}>
-          {ButtonLink("Log Activity")}
-          {ButtonLink("Log Symptoms")}
-          {ButtonLink("Plots")}
-          {ButtonLink("Logs")}
-          {ButtonLink("Data")}
+          {ButtonLink(navigation, "Log Activity")}
+          {ButtonLink(navigation, "Log Symptoms")}
+          {ButtonLink(navigation, "Plots")}
+          {ButtonLink(navigation, "Logs")}
+          {ButtonLink(navigation, "Data")}
         </View>
       </View>
     </>

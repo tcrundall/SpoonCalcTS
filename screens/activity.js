@@ -3,6 +3,7 @@ import { useState } from "react";
 import { SafeAreaView } from "react-native";
 import { View, Text, Button, TextInput } from "react-native";
 import MyButtonGroup from "../components/buttongroup";
+import FooterButton from "../components/buttonfooter";
 import styles from "../styles";
 
 const getRoundedDate = (d = new Date()) => {
@@ -120,34 +121,7 @@ const ActivityScreen = ({ navigation }) => {
       {MyButtonGroup("Modifier", activityQualifier, setActivityQualifier,
         ["phone", "screen", "exercise", "boost", "misc",]
       )}
-      <View style={{
-        flexDirection: "row",
-        alignContent: "stretch",
-        justifyContent: "center",
-      }}>
-        <View style={{
-          flex: 0.5,
-        }}>
-          <Button
-            onPress={() => {
-              console.log("Cancel");
-              navigation.navigate("Home");
-            }}
-            title="Cancel"
-            color="#888888"
-          />
-        </View>
-        <View style={{
-          flex: 0.5,
-        }}>
-          <Button
-            onPress={() => {
-              console.log("Save");
-            }}
-            title="Save"
-          />
-        </View>
-      </View>
+      {FooterButton(navigation, "Saved activity")}
     </SafeAreaView>
   );
 };

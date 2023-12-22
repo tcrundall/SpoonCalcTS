@@ -2,7 +2,7 @@ import { View } from "react-native";
 import { Button } from "react-native-elements";
 import styles from "../styles";
 
-const ButtonLink = (destination) => {
+const ButtonLink = (navigation, destination) => {
   return (
     <View style={styles.buttonContainer}>
       < Button
