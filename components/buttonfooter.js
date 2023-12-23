@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import { Button } from "react-native";
 
-const FooterButton = (navigation, action) => {
+const FooterButton = (navigation, action, names) => {
   return (
     <View style={{
       justifyContent: "flex-end",
@@ -30,7 +30,7 @@ const FooterButton = (navigation, action) => {
         }}>
           <Button
             onPress={() => {
-              console.log(action);
+              action(names);
             }}
             title="Save"
           />

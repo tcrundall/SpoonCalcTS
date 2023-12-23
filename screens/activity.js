@@ -1,10 +1,11 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native";
 import { View, Text, Button, TextInput } from "react-native";
 import MyButtonGroup from "../components/buttongroup";
 import FooterButton from "../components/buttonfooter";
 import styles from "../styles";
+import Database from "../database";
 
 const getRoundedDate = (d = new Date()) => {
   const roundInMs = 1000 * 60 * 15;  // 15 minutes in milliseconds
@@ -12,7 +13,31 @@ const getRoundedDate = (d = new Date()) => {
   return roundedDate;
 };
 
+const db = Database.getConnection();
+
+const saveActivity = (name) => {
+  db.transaction((tx) => {
+    tx.executeSql(`insert into activities (activity) values ("${name}");`, []);
+    tx.executeSql("select * from activities;", [], (_, { rows }) =>
+      console.log(`Added to activities: ${JSON.stringify(rows)}`)
+    );
+  });
+  console.log("Created table");
+};
+
 const ActivityScreen = ({ navigation }) => {
+  useEffect(() => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "create table if not exists activities (id integer primary key not null, activity string);"
+      );
+      tx.executeSql("select * from activities;", [], (_, { rows }) =>
+        console.log(`Current activities: ${JSON.stringify(rows)}`)
+      );
+    });
+    console.log("Created table");
+  }, []);
+
   const [cognitiveLoad, setCognitiveLoad] = useState(2);
   const [physicalLoad, setPhysicalLoad] = useState(2);
   const [activityType, setActivityType] = useState();
@@ -62,7 +87,7 @@ const ActivityScreen = ({ navigation }) => {
     showEndMode('time');
   };
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ flex: 1 }}>
       <View style={{
         height: 40,
         margin: 10,
@@ -121,7 +146,8 @@ const ActivityScreen = ({ navigation }) => {
       {MyButtonGroup("Modifier", activityQualifier, setActivityQualifier,
         ["phone", "screen", "exercise", "boost", "misc",]
       )}
-      {FooterButton(navigation, "Saved activity")}
+
+      {FooterButton(navigation, saveActivity, "Saved activity")}
     </SafeAreaView>
   );
 };

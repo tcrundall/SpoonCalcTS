@@ -19,8 +19,9 @@ export default function App() {
       tx.executeSql(
         "create table if not exists items (id integer primary key not null, done int, value int);"
       );
+      tx.executeSql("insert into items (done, value) values (0, 10);", []);
       tx.executeSql("select * from items;", [], (_, { rows }) =>
-        console.log(`Current table: ${JSON.stringify(rows)}`)
+        console.log(`Current items: ${JSON.stringify(rows)}`)
       );
     });
     console.log("Created table");
@@ -31,9 +32,10 @@ export default function App() {
       (tx) => {
         console.log("Entering add transaction");
         tx.executeSql("insert into items (done, value) values (0, 10);", []);
-        // tx.executeSql("select * from items;", [], (_, { rows }) =>
-        //   console.log(JSON.stringify(rows))
-        // );
+        tx.executeSql("select * from items;", [], (_, { rows }) =>
+          console.log(JSON.stringify(rows))
+        );
+        console.log("Leaving add transaction");
       });
   }, []);
 
