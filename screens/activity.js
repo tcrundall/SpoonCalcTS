@@ -15,29 +15,47 @@ const getRoundedDate = (d = new Date()) => {
 
 const db = Database.getConnection();
 
-const saveActivity = (name) => {
+const saveActivity = (a) => {
   db.transaction((tx) => {
-    tx.executeSql(`insert into activities (activity) values ("${name}");`, []);
-    tx.executeSql("select * from activities;", [], (_, { rows }) =>
+    tx.executeSql(
+      `
+      insert into activities2
+        (name, cognitiveLoad, physicalLoad, type, qualifier)
+      values 
+        ("${a.name}", "${a.cognitiveLoad}", "${a.physicalLoad}", "${a.type}", "${a.qualifier}")
+      `,
+      []);
+    tx.executeSql("select * from activities2;", [], (_, { rows }) =>
       console.log(`Added to activities: ${JSON.stringify(rows)}`)
     );
   });
-  console.log("Created table");
+  console.log("Added to activites...?");
 };
 
 const ActivityScreen = ({ navigation }) => {
   useEffect(() => {
     db.transaction((tx) => {
       tx.executeSql(
-        "create table if not exists activities (id integer primary key not null, activity string);"
+        `
+        create table if not exists activities2
+        (
+          id integer primary key not null,
+          name string,
+          cognitiveLoad int,
+          physicalLoad int,
+          type int,
+          qualifier int
+        );
+        `
       );
-      tx.executeSql("select * from activities;", [], (_, { rows }) =>
+      tx.executeSql("select * from activities2;", [], (_, { rows }) =>
         console.log(`Current activities: ${JSON.stringify(rows)}`)
       );
     });
-    console.log("Created table");
+    console.log("Created ACTIVITIES table");
   }, []);
 
+  const [activityName, setActivityName] = useState("Activity");
   const [cognitiveLoad, setCognitiveLoad] = useState(2);
   const [physicalLoad, setPhysicalLoad] = useState(2);
   const [activityType, setActivityType] = useState();
@@ -48,6 +66,17 @@ const ActivityScreen = ({ navigation }) => {
   const [endDate, setEndDate] = useState(getRoundedDate());
   const [endMode, setEndMode] = useState('date');
   const [endShow, setEndShow] = useState(false);
+
+  const activity = {
+    name: activityName,
+    cognitiveLoad: cognitiveLoad,
+    physicalLoad: physicalLoad,
+    type: activityType,
+    qualifier: activityQualifier,
+    startDate: startDate,
+    endDate: endDate,
+  }
+  console.log(`Activity has name: ${activity.name}`);
 
   const onStartChange = (_, selectedDate) => {
     const currentDate = selectedDate;
@@ -98,6 +127,7 @@ const ActivityScreen = ({ navigation }) => {
             fontSize: 20,
           }}
           placeholder="Activity Name"
+          onChangeText={(name) => { setActivityName(name) }}
         />
       </View>
       <Text style={styles.h2}>Start Time</Text>
@@ -147,7 +177,7 @@ const ActivityScreen = ({ navigation }) => {
         ["phone", "screen", "exercise", "boost", "misc",]
       )}
 
-      {FooterButton(navigation, saveActivity, "Saved activity")}
+      {FooterButton(navigation, saveActivity, activity)}
     </SafeAreaView>
   );
 };
