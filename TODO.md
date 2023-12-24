@@ -26,12 +26,12 @@
   - [x] save symptoms
   - [ ] refactor
     - [ ] Set buttons to enum-like values
-- [ ] Log display
-  - [x] Show activities
-  - [ ] Filter for today
-  - [ ] Delete
-  - [ ] Edit
-  - [ ] Show previuos days
+  - [ ] Log display
+    - [x] Show activities
+    - [ ] Filter for today
+    - [ ] Delete
+    - [ ] Edit
+    - [ ] Show previouus days
 - [ ] Activity plotting screen
 - [ ] Deploy
 - [ ] Install

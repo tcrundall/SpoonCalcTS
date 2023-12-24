@@ -25,6 +25,11 @@ const styles = StyleSheet.create({
     fontSize: 15,
     textAlignVertical: "center",
   },
+  h4: {
+    textAlign: "center",
+    fontSize: 13,
+    textAlignVertical: "center",
+  },
   debug: {
     // borderWidth: 3,
     // borderColor: "black",
