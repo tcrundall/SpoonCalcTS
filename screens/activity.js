@@ -19,13 +19,13 @@ const saveActivity = (a) => {
   db.transaction((tx) => {
     tx.executeSql(
       `
-      insert into activities2
-        (name, cognitiveLoad, physicalLoad, type, qualifier)
+      insert into activities
+        (name, cognitiveLoad, physicalLoad, type, qualifier, start, end)
       values 
-        ("${a.name}", "${a.cognitiveLoad}", "${a.physicalLoad}", "${a.type}", "${a.qualifier}")
+        ("${a.name}", "${a.cognitiveLoad}", "${a.physicalLoad}", "${a.type}", "${a.qualifier}", "${a.startDate}", "${a.endDate}")
       `,
       []);
-    tx.executeSql("select * from activities2;", [], (_, { rows }) =>
+    tx.executeSql("select * from activities;", [], (_, { rows }) =>
       console.log(`Added to activities: ${JSON.stringify(rows)}`)
     );
   });
@@ -35,20 +35,23 @@ const saveActivity = (a) => {
 const ActivityScreen = ({ navigation }) => {
   useEffect(() => {
     db.transaction((tx) => {
+      // tx.executeSql('drop table activities;');
       tx.executeSql(
         `
-        create table if not exists activities2
+        create table if not exists activities
         (
           id integer primary key not null,
           name string,
           cognitiveLoad int,
           physicalLoad int,
           type int,
-          qualifier int
+          qualifier int,
+          start datetime,
+          end datetime
         );
         `
       );
-      tx.executeSql("select * from activities2;", [], (_, { rows }) =>
+      tx.executeSql("select * from activities;", [], (_, { rows }) =>
         console.log(`Current activities: ${JSON.stringify(rows)}`)
       );
     });
@@ -73,8 +76,8 @@ const ActivityScreen = ({ navigation }) => {
     physicalLoad: physicalLoad,
     type: activityType,
     qualifier: activityQualifier,
-    startDate: startDate,
-    endDate: endDate,
+    startDate: startDate.toISOString(),
+    endDate: endDate.toISOString(),
   }
   console.log(`Activity has name: ${activity.name}`);
 

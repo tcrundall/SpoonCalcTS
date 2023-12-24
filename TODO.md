@@ -22,10 +22,19 @@
 - [ ] Data persistence
   - [Many options](https://taglineinfotech.com/react-native-database/)
     - [sqlite](https://www.npmjs.com/package/react-native-sqlite-storage)
+  - [x] save activity
+  - [x] save symptoms
+  - [ ] refactor
+    - [ ] Set buttons to enum-like values
+- [ ] Log display
+  - [x] Show activities
+  - [ ] Filter for today
+  - [ ] Delete
+  - [ ] Edit
+  - [ ] Show previuos days
+- [ ] Activity plotting screen
 - [ ] Deploy
 - [ ] Install
-- [ ] Log display
-- [ ] Activity plotting screen
 
 ## Advanced
 
