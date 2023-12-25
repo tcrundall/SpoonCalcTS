@@ -29,9 +29,12 @@
   - [ ] Log display
     - [x] Show activities
     - [x] Filter for today
-    - [x] Delete
+    - [ ] Delete
+      - [x] delete on press
+      - [x] ask for confirmation
+      - [ ] auto-update
     - [ ] Edit
-    - [x] Show previouus days
+    - [x] Show previous days
     - [ ] Show current day date
 - [ ] Activity plotting screen
 - [ ] Deploy
