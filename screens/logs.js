@@ -8,22 +8,13 @@ import { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Modal } from "react-native";
 
-/*
-- scroll view
-- title
-- list of activities
-- delete button
-*/
-
 const db = Database.getConnection();
 
 const getTimeFromIsoString = (datetimeString) => {
   const datetime = new Date(Date.parse(datetimeString));
   const hours = datetime.getHours();
   const minutes = datetime.getMinutes();
-  // return datetime.toLocaleString();
   return `${hours}:${minutes}`;
-  // return datetime.toTimeString().split(' ')[0].split(':').slice(0, 2).join(':');
 };
 
 const getDayStartFromOffset = (offset) => {
@@ -41,7 +32,6 @@ const getTodayMidnight = () => {
   return today;
 };
 
-
 const addDays = (date, days) => {
   console.log(`Received date: ${date}`);
   result = new Date(date);
@@ -50,14 +40,18 @@ const addDays = (date, days) => {
   return result
 }
 
-const deleteActivity = (activityId) => {
+const deleteActivity = (activityId, forceUpdate1) => {
   db.transaction((tx) => {
     tx.executeSql(`delete from activities where id = "${activityId}";`);
-  });
+  },
+    null,
+    forceUpdate1,
+  );
 };
 
-const printTime = (t, label = "") => {
-  console.log(`${label} ${t.toString()}`);
+const useForceUpdate = () => {
+  [value, setValue] = useState(0);
+  return [() => { console.log("forcing update"); setValue(value + 1); }, value];
 };
 
 const LogsScreen = ({ navigation }) => {
@@ -65,6 +59,7 @@ const LogsScreen = ({ navigation }) => {
   const [dayOffset, setDayOffset] = useState(-1);
   const [visible, setVisible] = useState(false);
   const [targetActivity, setTargetActivity] = useState(null);
+  const [forceUpdate, forceUpdateId] = useForceUpdate();
 
   const hide = () => { setVisible(false) };
   const show = () => { setVisible(true) };
@@ -80,7 +75,7 @@ const LogsScreen = ({ navigation }) => {
         });
       });
     },
-    [dayOffset],
+    [dayOffset, forceUpdateId],
     null,
   );
 
@@ -158,7 +153,6 @@ const LogsScreen = ({ navigation }) => {
                   onPress={() => {
                     setTargetActivity(a);
                     console.log(`Deleting ${a.name}!`);
-                    // deleteActivity(a.id);
                     show();
                     console.log(`Deleted ${a.name}!`);
                   }}
@@ -213,7 +207,7 @@ const LogsScreen = ({ navigation }) => {
                   title="Confirm"
                   onPress={() => {
                     console.log("DELETING!!!");
-                    deleteActivity(targetActivity.id);
+                    deleteActivity(targetActivity.id, forceUpdate);
                     hide()
                   }}
                   style={{ backgroundColor: "red", flex: 1 }}
