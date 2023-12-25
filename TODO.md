@@ -28,10 +28,11 @@
     - [ ] Set buttons to enum-like values
   - [ ] Log display
     - [x] Show activities
-    - [ ] Filter for today
-    - [ ] Delete
+    - [x] Filter for today
+    - [x] Delete
     - [ ] Edit
-    - [ ] Show previouus days
+    - [x] Show previouus days
+    - [ ] Show current day date
 - [ ] Activity plotting screen
 - [ ] Deploy
 - [ ] Install

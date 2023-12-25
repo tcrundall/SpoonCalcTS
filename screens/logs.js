@@ -47,6 +47,12 @@ const addDays = (date, days) => {
   return result
 }
 
+const deleteActivity = (activityId) => {
+  db.transaction((tx) => {
+    tx.executeSql(`delete from activities where id = "${activityId}";`);
+  });
+};
+
 const printTime = (t, label = "") => {
   console.log(`${label} ${t.toString()}`);
 };
@@ -141,7 +147,8 @@ const LogsScreen = ({ navigation }) => {
               <Button
                 title="X"
                 onPress={() => {
-                  console.log(`Deleting ${a.name}!`);
+                  deleteActivity(a.id);
+                  console.log(`Deleted ${a.name}!`);
                 }}
                 style={{ flex: 1 }}
               />
