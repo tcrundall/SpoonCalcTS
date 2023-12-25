@@ -1,4 +1,5 @@
-import { Button, Text, View } from "react-native";
+import { Text, View } from "react-native";
+import { Button } from "react-native-elements";
 import styles from "../styles";
 import { ScrollView } from "react-native";
 import Database from "../database";
@@ -17,8 +18,8 @@ const getTimeFromIsoString = (datetimeString) => {
   const datetime = new Date(Date.parse(datetimeString));
   const hours = datetime.getHours();
   const minutes = datetime.getMinutes();
-  return datetime.toLocaleString();
-  // return `${hours}:${minutes}`;
+  // return datetime.toLocaleString();
+  return `${hours}:${minutes}`;
   // return datetime.toTimeString().split(' ')[0].split(':').slice(0, 2).join(':');
 };
 
@@ -58,18 +59,8 @@ const LogsScreen = ({ navigation }) => {
     () => {
       db.transaction((tx) => {
         const currentDay = getDayStartFromOffset(dayOffset);
-        const yesterday = addDays(currentDay, -1);
-        const tomorrow = addDays(currentDay, 1);
-        console.log();
-        printTime(yesterday, "yesterday ");
-        printTime(currentDay, "today     ");
-        printTime(tomorrow, "tomorrow  ");
-        console.log();
-        console.log(`today:    ${currentDay.toISOString()}`);
-        console.log(`tomorrow: ${tomorrow.toISOString()}`);
-        tx.executeSql(`select * from activities where start between '${currentDay.toISOString()}' and '${tomorrow.toISOString()}';`, [], (_, { rows }) => {
-          // tx.executeSql(`select * from activities where id > 1;`, [], (_, { rows }) => {
-          // tx.executeSql(`select * from activities;`, [], (_, { rows }) => {
+        const followingDay = addDays(currentDay, 1);
+        tx.executeSql(`select * from activities where start between '${currentDay.toISOString()}' and '${followingDay.toISOString()}';`, [], (_, { rows }) => {
           console.log(JSON.stringify(rows));
           setItems(rows._array);
         });
@@ -80,21 +71,26 @@ const LogsScreen = ({ navigation }) => {
   );
 
   return (
-    <View style={{ flex: 1 }}>
-      <View>
-        <Button
-          title="<"
-          onPress={() => {
-            setDayOffset(dayOffset - 1);
-          }}
-        />
-        <Text style={styles.h1}>Logs</Text>
-        <Button
-          title=">"
-          onPress={() => {
-            setDayOffset(dayOffset + 1);
-          }}
-        />
+    <View style={{ ...{ flex: 1 }, ...styles.debug }}>
+      <View style={{ ...{ flexDirection: "row", flex: 0.1 }, ...styles.debug }}>
+        <View style={{ ...{ flex: 1 }, ...styles.debug }}>
+          <Button
+            title="<"
+            onPress={() => {
+              setDayOffset(dayOffset - 1);
+            }}
+
+          />
+        </View>
+        <Text style={{ ...styles.h1, ...{ flex: 8 } }}>Logs</Text>
+        <View style={{ ...{ flex: 1 }, ...styles.debug }}>
+          <Button
+            title=">"
+            onPress={() => {
+              setDayOffset(dayOffset + 1);
+            }}
+          />
+        </View>
       </View>
       <ScrollView style={{ flex: 1, borderTopWidth: 2, borderTopColor: "white" }}>
         <View style={{
@@ -124,7 +120,7 @@ const LogsScreen = ({ navigation }) => {
             },
             ...styles.debug
           }}>
-            <View style={{ ...{ flex: 10, }, ...styles.debug }}>
+            <View style={{ ...{ flex: 2, }, ...styles.debug }}>
               <Text style={styles.debug}>{getTimeFromIsoString(a.start)}</Text>
               <Text style={styles.debug}> - {getTimeFromIsoString(a.end)}</Text>
             </View>
