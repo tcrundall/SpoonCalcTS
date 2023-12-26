@@ -84,8 +84,8 @@ const ActivityScreen = ({ navigation, route }) => {
     physicalLoad: "3",
     type: null,
     qualifier: null,
-    start: getRoundedDate(),
-    end: getRoundedDate(),
+    startDate: getRoundedDate(),
+    endDate: getRoundedDate(),
   }
 
   const initialActivityFields = { ...defaultActivityFields, ...targetActivity }
@@ -95,8 +95,8 @@ const ActivityScreen = ({ navigation, route }) => {
   const [physicalLoad, setPhysicalLoad] = useState(initialActivityFields.physicalLoad);
   const [activityType, setActivityType] = useState(initialActivityFields.type);
   const [activityQualifier, setActivityQualifier] = useState(initialActivityFields.qualifier);
-  const [startDate, setStartDate] = useState(getRoundedDate(new Date(initialActivityFields.start)));
-  const [endDate, setEndDate] = useState(getRoundedDate(new Date(initialActivityFields.end)));
+  const [startDate, setStartDate] = useState(new Date(initialActivityFields.startDate));
+  const [endDate, setEndDate] = useState(new Date(initialActivityFields.endDate));
 
   const [startMode, setStartMode] = useState('date');
   const [startShow, setStartShow] = useState(false);
@@ -110,8 +110,8 @@ const ActivityScreen = ({ navigation, route }) => {
     physicalLoad: physicalLoad,
     type: activityType,
     qualifier: activityQualifier,
-    startDate: startDate.toISOString(),
-    endDate: endDate.toISOString(),
+    startDate: startDate,
+    endDate: endDate,
   }
 
   console.log(`Activity has name: ${activity.name} `);

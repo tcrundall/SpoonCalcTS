@@ -1,5 +1,4 @@
 import { Pressable, Text, View } from "react-native";
-// import { Button } from "react-native-elements";
 import { Button } from "react-native";
 import styles from "../styles";
 import { ScrollView } from "react-native";
@@ -8,6 +7,7 @@ import { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Modal } from "react-native";
 import * as dt from "../datetime";
+import { mapDbRowToActivity } from "../models/activityMapper";
 
 const db = Database.getConnection();
 
@@ -42,7 +42,7 @@ const LogsScreen = ({ navigation }) => {
         const followingDay = dt.addDays(currentDay, 1);
         tx.executeSql(`select * from activities where start between '${currentDay.toISOString()}' and '${followingDay.toISOString()}';`, [], (_, { rows }) => {
           console.log(JSON.stringify(rows));
-          setItems(rows._array);
+          setItems(rows._array.map((r) => mapDbRowToActivity(r)));
         });
       });
     },
@@ -102,8 +102,8 @@ const LogsScreen = ({ navigation }) => {
               ...styles.debug
             }}>
               <View style={{ ...{ flex: 2, }, ...styles.debug }}>
-                <Text style={styles.debug}>{dt.getTimeFromIsoString(a.start)}</Text>
-                <Text style={styles.debug}> - {dt.getTimeFromIsoString(a.end)}</Text>
+                <Text style={styles.debug}>{a.startTime}</Text>
+                <Text style={styles.debug}> - {a.endTime}</Text>
               </View>
               <Text style={{ ...styles.h2, ...{ flex: 1 } }}>{a.id}</Text>
               <Text style={{ ...styles.h2, ...{ flex: 5 } }}>{a.name}</Text>

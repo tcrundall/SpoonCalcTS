@@ -26,7 +26,7 @@
   - [x] save symptoms
   - [ ] refactor
     - [ ] Set buttons to enum-like values
-    - [ ] Add mappers for activites
+    - [x] Add mappers for activites
     - [ ] Add database client
     - [ ] Move date/time operations into module
   - [x] Log display
