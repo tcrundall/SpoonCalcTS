@@ -28,7 +28,8 @@
     - [ ] Set buttons to enum-like values
     - [x] Add mappers for activites
     - [ ] Add database client
-    - [ ] Move date/time operations into module
+    - [x] Move date/time operations into module
+    - [ ] Use "activity" as state in activity screen
   - [x] Log display
     - [x] Show activities
     - [x] Filter for today

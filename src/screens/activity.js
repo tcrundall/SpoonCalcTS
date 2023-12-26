@@ -6,12 +6,7 @@ import MyButtonGroup from "../components/buttongroup";
 import FooterButton from "../components/buttonfooter";
 import styles from "../styles";
 import Database from "../database";
-
-const getRoundedDate = (d = new Date()) => {
-  const roundInMs = 1000 * 60 * 15;  // 15 minutes in milliseconds
-  const roundedDate = new Date(Math.round(d.getTime() / roundInMs) * roundInMs);
-  return roundedDate;
-};
+import { getRoundedDate } from "../datetime";
 
 const db = Database.getConnection();
 
@@ -76,7 +71,6 @@ const ActivityScreen = ({ navigation, route }) => {
   } else {
     console.log("No activity recieved");
   }
-
 
   const defaultActivityFields = {
     name: "Activity",

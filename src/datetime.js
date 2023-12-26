@@ -28,3 +28,10 @@ export const addDays = (date, days) => {
   result.setDate(result.getDate() + days);
   return result
 }
+
+export const getRoundedDate = (d = new Date()) => {
+  const roundInMs = 1000 * 60 * 15;  // 15 minutes in milliseconds
+  const roundedDate = new Date(Math.round(d.getTime() / roundInMs) * roundInMs);
+  return roundedDate;
+};
+
