@@ -77,30 +77,6 @@ const ActivityScreen = ({ navigation, route }) => {
     console.log("No activity recieved");
   }
 
-  useEffect(() => {
-    db.transaction((tx) => {
-      // tx.executeSql('drop table activities;');
-      tx.executeSql(
-        `
-        create table if not exists activities
-        (
-          id integer primary key not null,
-          name string,
-          cognitiveLoad int,
-          physicalLoad int,
-          type int,
-          qualifier int,
-          start datetime,
-          end datetime
-        );
-        `
-      );
-      // tx.executeSql("select * from activities;", [], (_, { rows }) =>
-      //   console.log(`Current activities: ${ JSON.stringify(rows) } `)
-      // );
-    });
-    console.log("Created ACTIVITIES table");
-  }, []);
 
   const defaultActivityFields = {
     name: "Activity",

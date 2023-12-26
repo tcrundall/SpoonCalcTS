@@ -1,9 +1,12 @@
-import { Text, View, Image, StyleSheet } from "react-native";
-import { Button } from "react-native-elements";
+import { Text, View, Image } from "react-native";
 import ButtonLink from "../components/buttonlink";
 import styles from "../styles";
+import { createActivitiesTable, createSymptomsTable } from "../database";
 
 const HomeScreen = ({ navigation }) => {
+  createSymptomsTable();
+  createActivitiesTable();
+
   const averageDailyTotal = 30;
   const currentDayTotal = 28;
   return (
