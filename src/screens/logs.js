@@ -7,45 +7,16 @@ import Database from "../database";
 import { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Modal } from "react-native";
+import * as dt from "../datetime";
 
 const db = Database.getConnection();
 
-const getTimeFromIsoString = (datetimeString) => {
-  const datetime = new Date(Date.parse(datetimeString));
-  const hours = datetime.getHours();
-  const minutes = datetime.getMinutes();
-  return `${hours}:${minutes}`;
-};
-
-const getDayStartFromOffset = (offset) => {
-  const today = getTodayMidnight();
-  const result = new Date(today);
-  return addDays(result, offset);
-};
-
-const getTodayMidnight = () => {
-  today = new Date();
-  today.setHours(0);
-  today.setMinutes(0);
-  today.setSeconds(0);
-  today.setMilliseconds(0);
-  return today;
-};
-
-const addDays = (date, days) => {
-  console.log(`Received date: ${date}`);
-  result = new Date(date);
-  console.log(`Reconstructed date as: ${result.toString()}`);
-  result.setDate(result.getDate() + days);
-  return result
-}
-
-const deleteActivity = (activityId, forceUpdate1) => {
+const deleteActivity = (activityId, forceUpdate) => {
   db.transaction((tx) => {
     tx.executeSql(`delete from activities where id = "${activityId}";`);
   },
     null,
-    forceUpdate1,
+    forceUpdate,
   );
 };
 
@@ -67,8 +38,8 @@ const LogsScreen = ({ navigation }) => {
   useEffect(
     () => {
       db.transaction((tx) => {
-        const currentDay = getDayStartFromOffset(dayOffset);
-        const followingDay = addDays(currentDay, 1);
+        const currentDay = dt.getDayStartFromOffset(dayOffset);
+        const followingDay = dt.addDays(currentDay, 1);
         tx.executeSql(`select * from activities where start between '${currentDay.toISOString()}' and '${followingDay.toISOString()}';`, [], (_, { rows }) => {
           console.log(JSON.stringify(rows));
           setItems(rows._array);
@@ -92,7 +63,7 @@ const LogsScreen = ({ navigation }) => {
 
             />
           </View>
-          <Text style={{ ...styles.h1, ...{ flex: 8 } }}>{getDayStartFromOffset(dayOffset).toLocaleDateString()}</Text>
+          <Text style={{ ...styles.h1, ...{ flex: 8 } }}>{dt.getDayStartFromOffset(dayOffset).toLocaleDateString()}</Text>
           <View style={{ ...{ flex: 1 }, ...styles.debug }}>
             <Button
               title=">"
@@ -131,8 +102,8 @@ const LogsScreen = ({ navigation }) => {
               ...styles.debug
             }}>
               <View style={{ ...{ flex: 2, }, ...styles.debug }}>
-                <Text style={styles.debug}>{getTimeFromIsoString(a.start)}</Text>
-                <Text style={styles.debug}> - {getTimeFromIsoString(a.end)}</Text>
+                <Text style={styles.debug}>{dt.getTimeFromIsoString(a.start)}</Text>
+                <Text style={styles.debug}> - {dt.getTimeFromIsoString(a.end)}</Text>
               </View>
               <Text style={{ ...styles.h2, ...{ flex: 1 } }}>{a.id}</Text>
               <Text style={{ ...styles.h2, ...{ flex: 5 } }}>{a.name}</Text>
