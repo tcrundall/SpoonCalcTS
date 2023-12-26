@@ -1,11 +1,11 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HomeScreen from './screens/home';
-import LogsScreen from './screens/logs';
-import ActivityScreen from './screens/activity';
-import SymptomsScreen from './screens/symptoms';
-import DataScreen from './screens/data';
-import PlotsScreen from './screens/plots';
+import HomeScreen from './src/screens/home';
+import LogsScreen from './src/screens/logs';
+import ActivityScreen from './src/screens/activity';
+import SymptomsScreen from './src/screens/symptoms';
+import DataScreen from './src/screens/data';
+import PlotsScreen from './src/screens/plots';
 
 
 const Stack = createNativeStackNavigator()
@@ -13,7 +13,7 @@ const Stack = createNativeStackNavigator()
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Logs">
+      <Stack.Navigator initialRouteName="Home">
         <Stack.Screen
           name="Home"
           component={HomeScreen}

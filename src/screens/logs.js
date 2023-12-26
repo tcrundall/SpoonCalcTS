@@ -55,8 +55,8 @@ const useForceUpdate = () => {
 };
 
 const LogsScreen = ({ navigation }) => {
-  const [items, setItems] = useState([1, 2, 3]);
-  const [dayOffset, setDayOffset] = useState(-1);
+  const [items, setItems] = useState([]);
+  const [dayOffset, setDayOffset] = useState(0);
   const [visible, setVisible] = useState(false);
   const [targetActivity, setTargetActivity] = useState(null);
   const [forceUpdate, forceUpdateId] = useForceUpdate();
