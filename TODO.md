@@ -19,7 +19,7 @@
 - [x] Refactor
   - [x] make components
   - [x] centralize styles
-- [ ] Data persistence
+- [x] Data persistence
   - [Many options](https://taglineinfotech.com/react-native-database/)
     - [sqlite](https://www.npmjs.com/package/react-native-sqlite-storage)
   - [x] save activity
@@ -29,13 +29,15 @@
   - [ ] Log display
     - [x] Show activities
     - [x] Filter for today
-    - [ ] Delete
+    - [x] Delete
       - [x] delete on press
       - [x] ask for confirmation
-      - [ ] auto-update
-    - [ ] Edit
+      - [x] auto-update
+    - [x] Edit
     - [x] Show previous days
     - [ ] Show current day date
+- [ ] Allow deselection of activity fields
+- [ ] Auto update after activity edit
 - [ ] Activity plotting screen
 - [ ] Deploy
 - [ ] Install
@@ -51,3 +53,4 @@
 ## Usable by others
 
 - [ ] Authentication
+- [ ] Dynamic symptom list

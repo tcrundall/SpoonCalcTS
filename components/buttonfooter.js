@@ -19,7 +19,7 @@ const FooterButton = (navigation, saveAction, saveParams) => {
           <Button
             onPress={() => {
               console.log("Cancel");
-              navigation.navigate("Home");
+              navigation.goBack();
             }}
             title="Cancel"
             color="#888888"
@@ -31,6 +31,7 @@ const FooterButton = (navigation, saveAction, saveParams) => {
           <Button
             onPress={() => {
               saveAction(saveParams);
+              navigation.goBack();
             }}
             title="Save"
           />

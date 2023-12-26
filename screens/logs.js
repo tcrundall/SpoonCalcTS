@@ -143,6 +143,7 @@ const LogsScreen = ({ navigation }) => {
                   title="E"
                   onPress={() => {
                     console.log(`Editing ${a.name}!`);
+                    navigation.navigate("Log Activity", { targetActivity: a });
                   }}
                   style={{ flex: 1 }}
                 />

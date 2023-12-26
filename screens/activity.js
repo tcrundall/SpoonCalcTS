@@ -15,7 +15,36 @@ const getRoundedDate = (d = new Date()) => {
 
 const db = Database.getConnection();
 
+const updateActivity = (a) => {
+  console.log("In updateActivity");
+  db.transaction((tx) => {
+    tx.executeSql(`select * from activities where id = ${a.id};`, [], (_, { rows }) =>
+      console.log(`Updating activity: ${JSON.stringify(rows)}`)
+    );
+    tx.executeSql(
+      `
+      update activities
+      set
+        name = "${a.name}",
+        cognitiveLoad = "${a.cognitiveLoad}",
+        physicalLoad = "${a.physicalLoad}",
+        type = "${a.type}",
+        qualifier = "${a.qualifier}",
+        start = "${a.startDate}",
+        end = "${a.endDate}"
+      where
+        id = ${a.id}
+      `,
+      []);
+    tx.executeSql(`select * from activities where id = ${a.id};`, [], (_, { rows }) =>
+      console.log(`Updated activity: ${JSON.stringify(rows)}`)
+    );
+  });
+  console.log("Updated activity...?");
+};
+
 const saveActivity = (a) => {
+  console.log("In saveActivity");
   db.transaction((tx) => {
     tx.executeSql(
       `
@@ -32,7 +61,22 @@ const saveActivity = (a) => {
   console.log("Added to activites...?");
 };
 
-const ActivityScreen = ({ navigation }) => {
+const ActivityScreen = ({ navigation, route }) => {
+  console.log(`Got params: ${JSON.stringify(route.params)}`);
+
+  let targetActivity = {};
+  let targetActivityId = null;
+  let isUpdate = false;
+  if (route?.params?.targetActivity !== undefined) {
+    targetActivity = route.params.targetActivity;
+    targetActivityId = targetActivity.id;
+    isUpdate = true;
+    console.log(`Got an activity! ${JSON.stringify(targetActivity)}`);
+    console.log(`Updating? ${isUpdate}`);
+  } else {
+    console.log("No activity recieved");
+  }
+
   useEffect(() => {
     db.transaction((tx) => {
       // tx.executeSql('drop table activities;');
@@ -51,26 +95,40 @@ const ActivityScreen = ({ navigation }) => {
         );
         `
       );
-      tx.executeSql("select * from activities;", [], (_, { rows }) =>
-        console.log(`Current activities: ${JSON.stringify(rows)}`)
-      );
+      // tx.executeSql("select * from activities;", [], (_, { rows }) =>
+      //   console.log(`Current activities: ${ JSON.stringify(rows) } `)
+      // );
     });
     console.log("Created ACTIVITIES table");
   }, []);
 
-  const [activityName, setActivityName] = useState("Activity");
-  const [cognitiveLoad, setCognitiveLoad] = useState(2);
-  const [physicalLoad, setPhysicalLoad] = useState(2);
-  const [activityType, setActivityType] = useState();
-  const [activityQualifier, setActivityQualifier] = useState();
-  const [startDate, setStartDate] = useState(getRoundedDate());
+  const defaultActivityFields = {
+    name: "Activity",
+    cognitiveLoad: "2",
+    physicalLoad: "3",
+    type: null,
+    qualifier: null,
+    start: getRoundedDate(),
+    end: getRoundedDate(),
+  }
+
+  const initialActivityFields = { ...defaultActivityFields, ...targetActivity }
+
+  const [activityName, setActivityName] = useState(initialActivityFields.name);
+  const [cognitiveLoad, setCognitiveLoad] = useState(initialActivityFields.cognitiveLoad);
+  const [physicalLoad, setPhysicalLoad] = useState(initialActivityFields.physicalLoad);
+  const [activityType, setActivityType] = useState(initialActivityFields.type);
+  const [activityQualifier, setActivityQualifier] = useState(initialActivityFields.qualifier);
+  const [startDate, setStartDate] = useState(getRoundedDate(new Date(initialActivityFields.start)));
+  const [endDate, setEndDate] = useState(getRoundedDate(new Date(initialActivityFields.end)));
+
   const [startMode, setStartMode] = useState('date');
   const [startShow, setStartShow] = useState(false);
-  const [endDate, setEndDate] = useState(getRoundedDate());
   const [endMode, setEndMode] = useState('date');
   const [endShow, setEndShow] = useState(false);
 
   const activity = {
+    id: targetActivityId,
     name: activityName,
     cognitiveLoad: cognitiveLoad,
     physicalLoad: physicalLoad,
@@ -79,7 +137,8 @@ const ActivityScreen = ({ navigation }) => {
     startDate: startDate.toISOString(),
     endDate: endDate.toISOString(),
   }
-  console.log(`Activity has name: ${activity.name}`);
+
+  console.log(`Activity has name: ${activity.name} `);
 
   const onStartChange = (_, selectedDate) => {
     const currentDate = selectedDate;
@@ -131,6 +190,7 @@ const ActivityScreen = ({ navigation }) => {
           }}
           placeholder="Activity Name"
           onChangeText={(name) => { setActivityName(name) }}
+          value={activityName}
         />
       </View>
       <Text style={styles.h2}>Start Time</Text>
@@ -180,7 +240,7 @@ const ActivityScreen = ({ navigation }) => {
         ["phone", "screen", "exercise", "boost", "misc",]
       )}
 
-      {FooterButton(navigation, saveActivity, activity)}
+      {FooterButton(navigation, isUpdate ? updateActivity : saveActivity, activity)}
     </SafeAreaView>
   );
 };
