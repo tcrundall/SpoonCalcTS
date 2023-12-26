@@ -92,7 +92,7 @@ const LogsScreen = ({ navigation }) => {
 
             />
           </View>
-          <Text style={{ ...styles.h1, ...{ flex: 8 } }}>Logs</Text>
+          <Text style={{ ...styles.h1, ...{ flex: 8 } }}>{getDayStartFromOffset(dayOffset).toLocaleDateString()}</Text>
           <View style={{ ...{ flex: 1 }, ...styles.debug }}>
             <Button
               title=">"

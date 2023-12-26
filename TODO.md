@@ -26,7 +26,10 @@
   - [x] save symptoms
   - [ ] refactor
     - [ ] Set buttons to enum-like values
-  - [ ] Log display
+    - [ ] Add mappers for activites
+    - [ ] Add database client
+    - [ ] Move date/time operations into module
+  - [x] Log display
     - [x] Show activities
     - [x] Filter for today
     - [x] Delete
@@ -35,7 +38,7 @@
       - [x] auto-update
     - [x] Edit
     - [x] Show previous days
-    - [ ] Show current day date
+    - [x] Show current day date
 - [ ] Allow deselection of activity fields
 - [ ] Auto update after activity edit
 - [ ] Activity plotting screen
