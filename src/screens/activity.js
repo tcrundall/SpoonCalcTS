@@ -1,59 +1,21 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SafeAreaView } from "react-native";
 import { View, Text, Button, TextInput } from "react-native";
 import MyButtonGroup from "../components/buttongroup";
 import FooterButton from "../components/buttonfooter";
 import styles from "../styles";
-import Database from "../database";
+import { saveActivity, updateActivity } from "../database";
 import { getRoundedDate } from "../datetime";
 
-const db = Database.getConnection();
 
-const updateActivity = (a) => {
-  console.log("In updateActivity");
-  db.transaction((tx) => {
-    tx.executeSql(`select * from activities where id = ${a.id};`, [], (_, { rows }) =>
-      console.log(`Updating activity: ${JSON.stringify(rows)}`)
-    );
-    tx.executeSql(
-      `
-      update activities
-      set
-        name = "${a.name}",
-        cognitiveLoad = "${a.cognitiveLoad}",
-        physicalLoad = "${a.physicalLoad}",
-        type = "${a.type}",
-        qualifier = "${a.qualifier}",
-        start = "${a.startDate}",
-        end = "${a.endDate}"
-      where
-        id = ${a.id}
-      `,
-      []);
-    tx.executeSql(`select * from activities where id = ${a.id};`, [], (_, { rows }) =>
-      console.log(`Updated activity: ${JSON.stringify(rows)}`)
-    );
-  });
-  console.log("Updated activity...?");
-};
-
-const saveActivity = (a) => {
-  console.log("In saveActivity");
-  db.transaction((tx) => {
-    tx.executeSql(
-      `
-      insert into activities
-        (name, cognitiveLoad, physicalLoad, type, qualifier, start, end)
-      values 
-        ("${a.name}", "${a.cognitiveLoad}", "${a.physicalLoad}", "${a.type}", "${a.qualifier}", "${a.startDate}", "${a.endDate}")
-      `,
-      []);
-    tx.executeSql("select * from activities;", [], (_, { rows }) =>
-      console.log(`Added to activities: ${JSON.stringify(rows)}`)
-    );
-  });
-  console.log("Added to activites...?");
+const setActivityField = (activity, field, updateCallback) => {
+  console.log(`Constructing call back for field ${field}`);
+  return (value) => {
+    activity[field] = value;
+    console.log(`Updated field: ${JSON.stringify(activity)}`);
+    updateCallback(activity);
+  }
 };
 
 const ActivityScreen = ({ navigation, route }) => {
