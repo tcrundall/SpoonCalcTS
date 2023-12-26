@@ -9,15 +9,6 @@ import { saveActivity, updateActivity } from "../database";
 import { getRoundedDate } from "../datetime";
 
 
-const setActivityField = (activity, field, updateCallback) => {
-  console.log(`Constructing call back for field ${field}`);
-  return (value) => {
-    activity[field] = value;
-    console.log(`Updated field: ${JSON.stringify(activity)}`);
-    updateCallback(activity);
-  }
-};
-
 const ActivityScreen = ({ navigation, route }) => {
   console.log(`Got params: ${JSON.stringify(route.params)}`);
 
@@ -44,38 +35,20 @@ const ActivityScreen = ({ navigation, route }) => {
     endDate: getRoundedDate(),
   }
 
+  // const [forceUpdate, forceUpdateId] = useForceUpdate();
   const initialActivityFields = { ...defaultActivityFields, ...targetActivity }
-
-  const [activityName, setActivityName] = useState(initialActivityFields.name);
-  const [cognitiveLoad, setCognitiveLoad] = useState(initialActivityFields.cognitiveLoad);
-  const [physicalLoad, setPhysicalLoad] = useState(initialActivityFields.physicalLoad);
-  const [activityType, setActivityType] = useState(initialActivityFields.type);
-  const [activityQualifier, setActivityQualifier] = useState(initialActivityFields.qualifier);
-  const [startDate, setStartDate] = useState(new Date(initialActivityFields.startDate));
-  const [endDate, setEndDate] = useState(new Date(initialActivityFields.endDate));
+  const [activity, setActivity] = useState(initialActivityFields);
 
   const [startMode, setStartMode] = useState('date');
   const [startShow, setStartShow] = useState(false);
   const [endMode, setEndMode] = useState('date');
   const [endShow, setEndShow] = useState(false);
 
-  const activity = {
-    id: targetActivityId,
-    name: activityName,
-    cognitiveLoad: cognitiveLoad,
-    physicalLoad: physicalLoad,
-    type: activityType,
-    qualifier: activityQualifier,
-    startDate: startDate,
-    endDate: endDate,
-  }
-
   console.log(`Activity has name: ${activity.name} `);
 
   const onStartChange = (_, selectedDate) => {
-    const currentDate = selectedDate;
     setStartShow(false);
-    setStartDate(getRoundedDate(currentDate));
+    setActivity({ ...activity, ...{ startDate: getRoundedDate(selectedDate) } })
   };
 
   const showStartMode = (currentMode) => {
@@ -92,9 +65,8 @@ const ActivityScreen = ({ navigation, route }) => {
   };
 
   const onEndChange = (_, selectedDate) => {
-    const currentDate = selectedDate;
     setEndShow(false);
-    setEndDate(getRoundedDate(currentDate));
+    setActivity({ ...activity, ...{ endDate: getRoundedDate(selectedDate) } })
   };
 
   const showEndMode = (currentMode) => {
@@ -121,12 +93,12 @@ const ActivityScreen = ({ navigation, route }) => {
             fontSize: 20,
           }}
           placeholder="Activity Name"
-          onChangeText={(name) => { setActivityName(name) }}
-          value={activityName}
+          onChangeText={(name) => { setActivity({ ...activity, ...{ name: name } }) }}
+          value={activity.name}
         />
       </View>
       <Text style={styles.h2}>Start Time</Text>
-      <Text style={styles.h3}>{startDate.toString()}</Text>
+      <Text style={styles.h3}>{activity.startDate.toString()}</Text>
       <View style={{ flexDirection: "row", margin: 10 }}>
         <View style={{ flex: 0.5 }}>
           <Button onPress={showStartDatePicker} title="Set date" color="#888" />
@@ -138,14 +110,14 @@ const ActivityScreen = ({ navigation, route }) => {
       {startShow &&
         <DateTimePicker
           testID="dateTimePicker"
-          value={startDate}
+          value={activity.startDate}
           mode={startMode}
           is24Hour={true}
           onChange={onStartChange}
         />
       }
       <Text style={styles.h2}>End Time</Text>
-      <Text style={styles.h3}>{endDate.toString()}</Text>
+      <Text style={styles.h3}>{activity.endDate.toString()}</Text>
       <View style={{ flexDirection: "row", margin: 10 }}>
         <View style={{ flex: 0.5 }}>
           <Button onPress={showEndDatePicker} title="Set date" color="#888" />
@@ -157,18 +129,32 @@ const ActivityScreen = ({ navigation, route }) => {
       {endShow &&
         <DateTimePicker
           testID="dateTimePicker"
-          value={endDate}
+          value={activity.endDate}
           mode={endMode}
           is24Hour={true}
           onChange={onEndChange}
         />
       }
-      {MyButtonGroup("Cognitive Load", cognitiveLoad, setCognitiveLoad)}
-      {MyButtonGroup("Physical Load", physicalLoad, setPhysicalLoad)}
-      {MyButtonGroup("Category", activityType, setActivityType,
+      {MyButtonGroup(
+        "Cognitive Load",
+        activity.cognitiveLoad,
+        (value) => { setActivity({ ...activity, ...{ cognitiveLoad: value } }) },
+      )}
+      {MyButtonGroup(
+        "Physical Load",
+        activity.physicalLoad,
+        (value) => { setActivity({ ...activity, ...{ physicalLoad: value } }) },
+      )}
+      {MyButtonGroup(
+        "Category",
+        activity.type,
+        (value) => { setActivity({ ...activity, ...{ type: value } }) },
         ["necessary", "leisure", "rest", "productive", "social",]
       )}
-      {MyButtonGroup("Modifier", activityQualifier, setActivityQualifier,
+      {MyButtonGroup(
+        "Modifier",
+        activity.qualifier,
+        (value) => { setActivity({ ...activity, ...{ qualifier: value } }) },
         ["phone", "screen", "exercise", "boost", "misc",]
       )}
 

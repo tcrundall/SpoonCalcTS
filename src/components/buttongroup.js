@@ -13,9 +13,7 @@ const MyButtonGroup = (title, selected, callback, options = null) => {
       <ButtonGroup
         buttons={buttonOptions}
         selectedIndex={selected}
-        onPress={(value) => {
-          callback(value);
-        }}
+        onPress={callback}
       />
     </>
   )
