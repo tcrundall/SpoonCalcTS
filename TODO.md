@@ -29,7 +29,7 @@
     - [x] Add mappers for activites
     - [ ] Add database client
     - [x] Move date/time operations into module
-    - [ ] Use "activity" as state in activity screen
+    - [x] Use "activity" as state in activity screen
   - [x] Log display
     - [x] Show activities
     - [x] Filter for today
@@ -40,11 +40,17 @@
     - [x] Edit
     - [x] Show previous days
     - [x] Show current day date
-- [ ] Allow deselection of activity fields
-- [ ] Auto update after activity edit
+- [x] Allow deselection of activity fields
+- [x] Auto update after activity edit
 - [ ] Activity plotting screen
-- [ ] Deploy
-- [ ] Install
+- [x] Deploy
+- [x] Install
+- [ ] Fix Bugs
+  - [ ] upon install, can't save any activities
+    - [ ] install adb and check logs
+    - [ ] check if issue with sqlite?
+
+## Throw away and start again?
 
 ## Advanced
 
@@ -58,3 +64,4 @@
 
 - [ ] Authentication
 - [ ] Dynamic symptom list
+- [ ] App store
