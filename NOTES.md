@@ -1,5 +1,17 @@
 # Notes
 
+## Routine actions
+
+Start app
+```
+npx expo start
+```
+
+Log:
+```
+adb logcat
+```
+
 ## Challenges
 
 ### Editable activity
