@@ -18,9 +18,9 @@ export default function RootLayout() {
           fontWeight: 'bold',
         },
       }}>
+      <Stack.Screen name="index" />
       <Stack.Screen name="activity" />
       <Stack.Screen name="data" />
-      <Stack.Screen name="index" />
       <Stack.Screen name="logs" />
       <Stack.Screen name="plots" />
       <Stack.Screen name="symptoms" />
