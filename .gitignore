@@ -33,3 +33,13 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+# android builds
+*.apk
+*.apks
+*.zip
+*.aab
+
+# secrets
+*.env
+credentials.json
