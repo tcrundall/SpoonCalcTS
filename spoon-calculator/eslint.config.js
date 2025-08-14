@@ -7,12 +7,12 @@ module.exports = defineConfig([
   {
     ignores: ['dist/*'],
   },
-  {
-    files: ["**/*.{js,jsx,ts,tsx}"],
-    rules: {
-      indent: ["error", 2], // change to 2 if you prefer
-      "react/jsx-indent": ["error", 2],
-      "react/jsx-indent-props": ["error", 2],
-    },
-  },
+  // {
+  //   files: ["**/*.{js,jsx,ts,tsx}"],
+  //   rules: {
+  //     indent: ["error", 2], // change to 2 if you prefer
+  //     "react/jsx-indent": ["error", 2],
+  //     "react/jsx-indent-props": ["error", 2],
+  //   },
+  // },
 ]);
