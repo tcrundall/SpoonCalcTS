@@ -11,7 +11,7 @@ react native.
 
 - [x] set up basic screen
 - [x] test manual build
-- [ ] test manual install
+- [x] test manual install
 - [ ] set up database
 - [ ] set up import/export of data
 - [ ] add activity logger screen
@@ -19,21 +19,25 @@ react native.
 - [ ] add plot screen
 - [ ] add symptoms tracker screen
 
-## links
+## notes
+
+### links
 
 - [react quickstart](https://react.dev/learn)
     - [creating a react app](https://react.dev/learn/creating-a-react-app)
+    - [react native library directory](https://reactnative.directory/)
 - [react native docs](https://reactnative.dev/docs/getting-started)
     - [react native package library](https://reactnative.directory/)
     - [get started with react native](https://reactnative.dev/docs/environment-setup)
 - [expo builds](https://expo.dev/accounts/tcrundall/projects/spoon-calculator/builds)
+    - [sqlite with expo](https://docs.expo.dev/versions/latest/sdk/sqlite/)
 - [typescript handbook](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html)
 
-## create a new app
+### create a new app
 
 `npx create-expo-app@latest`
 
-## start app
+### start app
 
 ```bash
 npm run android # needs Andoird SDK to be installed
@@ -45,9 +49,12 @@ Using expo go, one can easily test a sandbox version on native device.
 
 Install "Expo Go" app
 
-## building app
+### building app
 
 - [create a build](https://docs.expo.dev/develop/development-builds/create-a-build/)
+- [bundletool docs](https://developer.android.com/tools/bundletool#generate-sdk-archive-from-sdk-bundle)
+- [stack overflow post](https://stackoverflow.com/questions/50419286/install-android-app-bundle-on-device)
+- [getting keys from expo](https://docs.expo.dev/app-signing/app-credentials/)
 
 1. Sign up for an Expo account
 2. Install dev client (unsure if this is required):
@@ -99,7 +106,11 @@ export KEYPASSWORD="pass:<password>"
 
 > *Note the preceeding `pass:` which indicates passwords are provided as text and not filepaths*
 
-## troubeshooting
+### setting up sqlite
+
+Using `expo-sqlite`
+
+### troubeshooting
 
 Running basic created expo app hits an error "javaio.IOException: Failed to download remote update"
 
