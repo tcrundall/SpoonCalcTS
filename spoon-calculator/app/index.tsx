@@ -5,7 +5,10 @@ export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <Text>Spoon!</Text>
-      <Button title="Write to db" onPress={() => Alert.alert("Pressed!")} />
+      <Button title="Send alert" onPress={() => {
+        console.log("Presssed!");
+        console.log("Presssed 2!");
+      }} />
       <Link href="/activity">View activity</Link>
       <Link href="/data">View data</Link>
       <Link href="/logs">View logs</Link>
