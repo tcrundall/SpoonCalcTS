@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, Alert, Button } from 'react-native';
 import { Link } from 'expo-router';
+import { logToConsole } from '@/storage/database';
 
 export default function HomeScreen() {
   return (
@@ -7,6 +8,7 @@ export default function HomeScreen() {
       <Text>Spoon!</Text>
       <Button title="Send alert" onPress={() => {
         console.log("Presssed!");
+        logToConsole("Hallo");
         console.log("Presssed 2!");
       }} />
       <Link href="/activity">View activity</Link>
