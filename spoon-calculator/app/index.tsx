@@ -1,15 +1,25 @@
 import { View, Text, StyleSheet, Alert, Button } from 'react-native';
 import { Link } from 'expo-router';
-import { logToConsole } from '@/storage/database';
+import * as Storage from '@/storage/database';
 
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
       <Text>My Spoon!</Text>
-      <Button title="Send alert" onPress={() => {
-        console.log("Presssed!");
-        logToConsole("Hallo");
-        console.log("Presssed 2!");
+      <Button title="Open database" onPress={() => {
+        console.log("Opening database...");
+        Storage.myOpenDatabase();
+        console.log("Done");
+      }} />
+      <Button title="Add to database" onPress={() => {
+        console.log("Adding to database...");
+        Storage.addRow();
+        console.log("Done");
+      }} />
+      <Button title="List database" onPress={() => {
+        console.log("Listing to database...");
+        Storage.listTable();
+        console.log("Done");
       }} />
       <Link href="/activity">View activity</Link>
       <Link href="/data">View data</Link>

@@ -1,11 +1,14 @@
 import { Stack } from 'expo-router';
 import 'react-native-reanimated';
-
+import { useEffect } from "react";
+import * as Storage from "../storage/database";
 
 export default function RootLayout() {
-  // const [loaded] = useFonts({
-  //   SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  // });
+  useEffect(() => {
+    (async () => {
+      await Storage.initialiseDatabase();
+    })();
+  }, []);
 
   return (
     <Stack

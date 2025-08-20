@@ -1,30 +1,67 @@
-import * as SQLite from 'expo-sqlite';
+import * as SQLite from "expo-sqlite";
 
-// const databaseName = "spooncalc-rn.db";
-// const db = await SQLite.openDatabaseAsync(databaseName);
-
-type Activity = {
+type SimpleEntry = {
   id: string;
   name: string;
-  cognitiveLoad: number;
-  physicalLoad: number;
-  type: string;
-  qualifier: string;
-  startDate: string;
-  endDate: string;
-};
-
-type Symptom = {
-  pain: string;
-  nausea: string;
-  fatigue: string;
-  fluLike: string;
-  sleepy: string;
 }
 
 export const logToConsole = (msg: string) => {
   console.log(msg);
 };
+
+const databaseName = "spooncalc-rn.db";
+
+export const initialiseDatabase = async () => {
+  const db = await SQLite.openDatabaseAsync(databaseName);
+  await db.execAsync(
+    "CREATE TABLE IF NOT EXISTS items (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT);"
+  );
+}
+
+export const myOpenDatabase = async () => {
+  const db = await SQLite.openDatabaseAsync(databaseName);
+  console.log("Storage::successfully opened a database!")
+  await db.closeAsync();
+}
+
+export const addRow = async () => {
+  console.log("Storage::adding a row!")
+  const db = await SQLite.openDatabaseAsync(databaseName);
+  await db.execAsync("INSERT INTO items ( name ) VALUES ( 'text' );")
+  await db.closeAsync();
+}
+
+export const listTable = async () => {
+  console.log("Storage::listing table!")
+  const db = await SQLite.openDatabaseAsync(databaseName);
+
+  const allRows: SimpleEntry[] = await db.getAllAsync("SELECT * from items");
+  console.log("Entering for lop");
+  for (const row of allRows) {
+    console.log(row.id, row.name);
+  }
+
+  await db.closeAsync();
+}
+
+// type Activity = {
+//   id: string;
+//   name: string;
+//   cognitiveLoad: number;
+//   physicalLoad: number;
+//   type: string;
+//   qualifier: string;
+//   startDate: string;
+//   endDate: string;
+// };
+
+// type Symptom = {
+//   pain: string;
+//   nausea: string;
+//   fatigue: string;
+//   fluLike: string;
+//   sleepy: string;
+// }
 
 // class Database {
 //   getConnection() {
@@ -178,3 +215,4 @@ export const logToConsole = (msg: string) => {
 // };
 //
 // export default new Database();
+//
