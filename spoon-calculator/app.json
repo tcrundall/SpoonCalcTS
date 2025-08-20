@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Spoon Calculator",
-    "slug": "Spoon Calculator",
+    "slug": "spoon-calculator",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/spoon-images/spoon_icon.png",
@@ -9,7 +9,8 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.tcrundall.spooncalculator"
     },
     "android": {
       "adaptiveIcon": {
