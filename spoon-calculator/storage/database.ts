@@ -10,37 +10,30 @@ export const logToConsole = (msg: string) => {
 };
 
 const databaseName = "spooncalc-rn.db";
+const db = SQLite.openDatabaseSync(databaseName);
 
 export const initialiseDatabase = async () => {
-  const db = await SQLite.openDatabaseAsync(databaseName);
   await db.execAsync(
     "CREATE TABLE IF NOT EXISTS items (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT);"
   );
 }
 
 export const myOpenDatabase = async () => {
-  const db = await SQLite.openDatabaseAsync(databaseName);
   console.log("Storage::successfully opened a database!")
-  await db.closeAsync();
 }
 
 export const addRow = async () => {
   console.log("Storage::adding a row!")
-  const db = await SQLite.openDatabaseAsync(databaseName);
   await db.execAsync("INSERT INTO items ( name ) VALUES ( 'text' );")
-  await db.closeAsync();
 }
 
 export const listTable = async () => {
   console.log("Storage::listing table!")
-  const db = await SQLite.openDatabaseAsync(databaseName);
-
   const allRows: SimpleEntry[] = await db.getAllAsync("SELECT * from items");
   console.log("Entering for loop");
   for (const row of allRows) {
     console.log(row.id, row.name);
   }
-  await db.closeAsync();
 }
 
 export type Activity = {
@@ -63,9 +56,7 @@ export type Activity = {
 // }
 
 export const createActivitiesTable = async () => {
-  const db = await SQLite.openDatabaseAsync(databaseName);
   db.withTransactionAsync(async () => {
-    // db.execAsync('drop table activities;');
     db.execAsync(
       `
         create table if not exists activities
@@ -88,12 +79,10 @@ export const createActivitiesTable = async () => {
       console.log(row.id, row.name, row.cognitiveLoad);
     }
   });
-  await db.closeAsync();
 };
 
 export const saveActivity = async (a: Activity) => {
   console.log("In saveActivity");
-  const db = await SQLite.openDatabaseAsync(databaseName);
   db.withTransactionAsync(async () => {
     db.execAsync(
       `
@@ -104,19 +93,16 @@ export const saveActivity = async (a: Activity) => {
       `);
   });
   console.log("Added to activites...");
-  await db.closeAsync();
 };
 
 export const listActivities = async () => {
   console.log("Storage::listing activities!")
-  const db = await SQLite.openDatabaseAsync(databaseName);
 
   const allRows: Activity[] = await db.getAllAsync("SELECT * from activities");
   console.log("Entering for loop");
   for (const row of allRows) {
     console.log(row.id, row.name, row.cognitiveLoad);
   }
-  await db.closeAsync();
 }
 
 // export const updateActivity = (a: Activity) => {
