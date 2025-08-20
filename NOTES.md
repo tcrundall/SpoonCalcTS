@@ -5,7 +5,7 @@ react native.
 
 ## waiting for
 
-- [ ] manual build
+- [x] manual build
 
 ## actions
 
@@ -40,9 +40,7 @@ react native.
 ### start app
 
 ```bash
-npm run android # needs Andoird SDK to be installed
-npm run ios
-npm run web
+npx expo start --go --clear
 ```
 
 Using expo go, one can easily test a sandbox version on native device.
@@ -108,13 +106,29 @@ export KEYPASSWORD="pass:<password>"
 
 ### setting up sqlite
 
-Using `expo-sqlite`
+Using [`expo-sqlite`](https://docs.expo.dev/versions/latest/sdk/sqlite/)
+
+Install:
+```bash
+npx expo install expo-sqlite
+```
 
 ### troubeshooting
+
+#### Failed to download remote update
 
 Running basic created expo app hits an error "javaio.IOException: Failed to download remote update"
 
 **SOLVED:** run with `npx expo start --tunnel`
 - see [here](https://docs.expo.dev/get-started/start-developing/)
+
+#### cannot start on phone
+
+Sometimes the app just won't start, no error, no exception.
+
+Solution(?) seems to be starting app from repo at example checkout
+`2df189cce52d4f73fe6a61273e046f64ec19ac28`, then reloading from current HEAD works...
+
+#### misc
 
 When building, generating keystore in the cdloud failed (500). It worked upon retry.
