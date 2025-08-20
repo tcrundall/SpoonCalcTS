@@ -12,7 +12,7 @@ react native.
 - [x] set up basic screen
 - [x] test manual build
 - [x] test manual install
-- [ ] set up database
+- [x] set up database
 - [ ] set up import/export of data
 - [ ] add activity logger screen
 - [ ] add log summary screen
@@ -113,6 +113,27 @@ Install:
 npx expo install expo-sqlite
 ```
 
+### setting up file picker
+
+There is an [expo filesystem library](https://docs.expo.dev/versions/latest/sdk/filesystem/) but it
+doesn't seem to give access to local files.
+
+There is a [react native documents library](https://react-native-documents.github.io/docs/install)
+which does provide access to local files.
+However this does not work with Expo Go because they include custom native code.
+
+### setting up virtual android
+
+- [android studio docs](https://developer.android.com/studio/run/emulator#avd)
+- [expo docs](https://docs.expo.dev/get-started/set-up-your-environment/?platform=android&device=simulated)
+
+1. open up virtual android via android studio
+2. build app (see expo docs)
+3. install to virtual android (see expo docs)
+4. run with `npx expo start`
+5. hit `a` to open on android (should auto detect the open virtual android)
+6. changes are hot reloaded
+
 ### troubeshooting
 
 #### Failed to download remote update
@@ -128,6 +149,9 @@ Sometimes the app just won't start, no error, no exception.
 
 Solution(?) seems to be starting app from repo at example checkout
 `2df189cce52d4f73fe6a61273e046f64ec19ac28`, then reloading from current HEAD works...
+
+Or maybe, ensuring "Expo Go" run, and refreshing the expo go app
+`npx expo start --go`
 
 #### misc
 
