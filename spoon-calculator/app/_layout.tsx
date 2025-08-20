@@ -1,14 +1,11 @@
 import { Stack } from 'expo-router';
 import 'react-native-reanimated';
-import { useEffect } from "react";
 import * as Storage from "../storage/database";
 
 export default function RootLayout() {
-  useEffect(() => {
-    (async () => {
-      await Storage.initialiseDatabase();
-    })();
-  }, []);
+  (async () => {
+    await Storage.initialiseDatabase();
+  })();
 
   return (
     <Stack
