@@ -43,3 +43,10 @@ yarn-error.*
 # secrets
 *.env
 credentials.json
+
+# builds
+ios
+android
+
+# logs
+*.log
