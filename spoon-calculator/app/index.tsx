@@ -5,7 +5,7 @@ import { logToConsole } from '@/storage/database';
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
-      <Text>Spoon!</Text>
+      <Text>My Spoon!</Text>
       <Button title="Send alert" onPress={() => {
         console.log("Presssed!");
         logToConsole("Hallo");
