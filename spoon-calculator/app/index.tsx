@@ -21,6 +21,21 @@ export default function HomeScreen() {
         Storage.listTable();
         console.log("Done");
       }} />
+      <Button title="Open activities" onPress={() => {
+        console.log("Opening activities...");
+        Storage.createActivitiesTable();
+        console.log("Done");
+      }} />
+      <Button title="Add to activities" onPress={() => {
+        console.log("Adding to activities...");
+        Storage.saveActivity({ id: "", name: "asdf", cognitiveLoad: 1, physicalLoad: 1, type: "asd", qualifier: "asdf", startDate: "asdfad", endDate: "ASDF" });
+        console.log("Done");
+      }} />
+      <Button title="List activities" onPress={() => {
+        console.log("Listing to activities...");
+        Storage.listActivities();
+        console.log("Done");
+      }} />
       <Link href="/activity">View activity</Link>
       <Link href="/data">View data</Link>
       <Link href="/logs">View logs</Link>
