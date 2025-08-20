@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "My Spoon Calculator",
-    "slug": "my-spoon-calculator",
+    "name": "Spoon Calculator",
+    "slug": "Spoon Calculator",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/spoon-images/spoon_icon.png",
