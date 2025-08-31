@@ -3,22 +3,30 @@ import {
   useSQLiteContext,
   type SQLiteDatabase,
 } from "expo-sqlite";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { View, Text } from "react-native";
 
 export default function Index() {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <SQLiteProvider databaseName="test.db" onInit={migrateDbIfNeeded}>
-        <Header />
-        <Content />
-      </SQLiteProvider>
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Suspense fallback={<DatabaseLoadingFallback />}>
+        <SQLiteProvider
+          databaseName="test.db"
+          onInit={migrateDbIfNeeded}
+          useSuspense
+        >
+          <Header />
+          <Content />
+        </SQLiteProvider>
+      </Suspense>
+    </View>
+  );
+}
+
+function DatabaseLoadingFallback() {
+  return (
+    <View style={{ backgroundColor: "pink", padding: 20 }}>
+      <Text>Waiting on database initialization...</Text>
     </View>
   );
 }
@@ -31,9 +39,7 @@ export function Header() {
       const result = await db.getFirstAsync<{ "sqlite_version()": string }>(
         "SELECT sqlite_version()",
       );
-      if (result) {
-        setVersion(result["sqlite_version()"]);
-      }
+      setVersion(result?.["sqlite_version()"] || "");
     }
     setup();
   }, []);
