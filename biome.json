@@ -1,0 +1,9 @@
+{
+    "files": {
+        "includes": ["**/*.js", "**/*.tsx"]
+    },
+    "formatter": {
+        "indentStyle": "space",
+        "indentWidth": 2
+    }
+}
