@@ -56,6 +56,10 @@ react native.
 
 ### feature 9: release to beta testers
 
+### feature 11: add security
+
+- [ ] sanitise input before creating SQL requests
+
 ## notes
 
 ### links
