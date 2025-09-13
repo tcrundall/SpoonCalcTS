@@ -1,5 +1,5 @@
-import { Stack } from 'expo-router';
-import 'react-native-reanimated';
+import { Stack } from "expo-router";
+import "react-native-reanimated";
 import * as Storage from "../storage/database";
 
 export default function RootLayout() {
@@ -11,13 +11,14 @@ export default function RootLayout() {
     <Stack
       screenOptions={{
         headerStyle: {
-          backgroundColor: '#f4511e'
+          backgroundColor: "#f4511e",
         },
-        headerTintColor: '#fff',
+        headerTintColor: "#fff",
         headerTitleStyle: {
-          fontWeight: 'bold',
+          fontWeight: "bold",
         },
-      }}>
+      }}
+    >
       <Stack.Screen name="index" />
       <Stack.Screen name="activity" />
       <Stack.Screen name="data" />
