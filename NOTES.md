@@ -9,15 +9,41 @@ react native.
 
 ## actions
 
+### feature 0: fundamental infrastructure
+
 - [x] set up basic screen
 - [x] test manual build
 - [x] test manual install
 - [x] set up database
-- [ ] set up import/export of data
+
+### feature 1: run in web
+
+- [ ] disable database for web development **◎**
+
+### feature 2: log activity
+
 - [ ] add activity logger screen
 - [ ] add log summary screen
+
+### feature 3: plot spoons
+
 - [ ] add plot screen
+
+### feature 4: import from file
+
+- [ ] set up import/export of data
+
+### feature 5: log symptoms
+
 - [ ] add symptoms tracker screen
+
+### feature 6: log special events
+
+### feature 7: centralized database with encryption
+
+### feature 8: build and deploy
+
+### feature 9: release to beta testers
 
 ## notes
 
