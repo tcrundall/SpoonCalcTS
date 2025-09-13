@@ -20,6 +20,8 @@ react native.
 
 - [x] disable database for web development **◎**
 
+### feature 10: set up activity database
+
 ### feature 2: log activity
 
 - [ ] add activity logger screen
