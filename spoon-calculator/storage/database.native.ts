@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import * as SQLite from "expo-sqlite";
 
 type SimpleEntry = {
@@ -47,14 +48,6 @@ export type Activity = {
   endDate: string;
 };
 
-// type Symptom = {
-//   pain: string;
-//   nausea: string;
-//   fatigue: string;
-//   fluLike: string;
-//   sleepy: string;
-// }
-
 export const createActivitiesTable = async () => {
   db.withTransactionAsync(async () => {
     db.execAsync(
@@ -67,8 +60,8 @@ export const createActivitiesTable = async () => {
           physicalLoad int,
           type int,
           qualifier int,
-          start datetime,
-          end datetime
+          startDate datetime,
+          endDate datetime
         );
         `
     );
@@ -87,9 +80,17 @@ export const saveActivity = async (a: Activity) => {
     db.execAsync(
       `
       insert into activities
-        (name, cognitiveLoad, physicalLoad, type, qualifier, start, end)
+        (name, cognitiveLoad, physicalLoad, type, qualifier, startDate, endDate)
       values
-        ("${a.name}", "${a.cognitiveLoad}", "${a.physicalLoad}", "${a.type}", "${a.qualifier}", "${a.startDate}", "${a.endDate}")
+        (
+          "${a.name}",
+          "${a.cognitiveLoad}",
+          "${a.physicalLoad}",
+          "${a.type}",
+          "${a.qualifier}",
+          "${a.startDate}",
+          "${a.endDate}"
+        )
       `);
   });
   console.log("Added to activites...");
@@ -101,7 +102,7 @@ export const listActivities = async () => {
   const allRows: Activity[] = await db.getAllAsync("SELECT * from activities");
   console.log("Entering for loop");
   for (const row of allRows) {
-    console.log(row.id, row.name, row.cognitiveLoad);
+    console.log(row.id, row.name, row.cognitiveLoad, row.physicalLoad, row.type, row.qualifier, dayjs(row.startDate).format("HH:MM:SS"), row.endDate);
   }
 }
 
@@ -132,6 +133,14 @@ export const listActivities = async () => {
 //   });
 //   console.log("Updated activity...?");
 // };
+//
+// type Symptom = {
+//   pain: string;
+//   nausea: string;
+//   fatigue: string;
+//   fluLike: string;
+//   sleepy: string;
+// }
 //
 // export function createSymptomsTable() {
 //   db.withTransactionAsync(async () => {

@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, Alert, Button } from "react-native";
 import { Link } from "expo-router";
 import * as Storage from "storage/database";
+import dayjs from "dayjs";
 
 export default function HomeScreen() {
   return (
@@ -42,15 +43,17 @@ export default function HomeScreen() {
         title="Add to activities"
         onPress={() => {
           console.log("Adding to activities...");
+          console.log(dayjs().format());
+          console.log(dayjs().add(1, "day").format());
           Storage.saveActivity({
             id: "",
-            name: "asdf",
+            name: "My activity",
             cognitiveLoad: 1,
             physicalLoad: 1,
-            type: "asd",
-            qualifier: "asdf",
-            startDate: "asdfad",
-            endDate: "ASDF",
+            type: "coding",
+            qualifier: "screen",
+            startDate: dayjs().format(),
+            endDate: dayjs().add(1, "day").format(),
           });
           console.log("Done");
         }}

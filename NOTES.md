@@ -22,10 +22,10 @@ react native.
 
 ### feature 10: set up activity database
 
-- [ ] decide contents
+- [x] decide contents
     - remember, no derived values
-- [ ] initialise table
-- [ ] add adder
+- [x] initialise table
+- [x] add adder
 - [ ] add updater
 - [ ] add deleter
 - [ ] provide button that inserts dummy values
@@ -189,6 +189,11 @@ Solution(?) seems to be starting app from repo at example checkout
 
 Or maybe, ensuring "Expo Go" run, and refreshing the expo go app
 `npx expo start --go`
+
+#### sql formatting
+
+Tried to get sqlfluff to format my SQL strings, however it could not parse the strings, and even
+when it could parse, it didn't apply the kind of formatting/indenting I was hoping for.
 
 #### misc
 
