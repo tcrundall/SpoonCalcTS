@@ -22,6 +22,15 @@ react native.
 
 ### feature 10: set up activity database
 
+- [ ] decide contents
+    - remember, no derived values
+- [ ] initialise table
+- [ ] add adder
+- [ ] add updater
+- [ ] add deleter
+- [ ] provide button that inserts dummy values
+- [ ] add unit tests?
+
 ### feature 2: log activity
 
 - [ ] add activity logger screen
