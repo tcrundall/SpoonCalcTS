@@ -1,6 +1,6 @@
 import { Stack } from "expo-router";
 import "react-native-reanimated";
-import * as Storage from "../storage/database";
+import * as Storage from "storage/database";
 
 export default function RootLayout() {
   (async () => {
