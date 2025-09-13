@@ -18,7 +18,7 @@ react native.
 
 ### feature 1: run in web
 
-- [ ] disable database for web development **◎**
+- [x] disable database for web development **◎**
 
 ### feature 2: log activity
 
