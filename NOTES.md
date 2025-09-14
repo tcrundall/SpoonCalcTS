@@ -198,6 +198,10 @@ Or maybe, ensuring "Expo Go" run, and refreshing the expo go app
 Tried to get sqlfluff to format my SQL strings, however it could not parse the strings, and even
 when it could parse, it didn't apply the kind of formatting/indenting I was hoping for.
 
+#### ios
+[react-native-paper ios instructions](https://callstack.github.io/react-native-paper/docs/guides/getting-started)
+`npx pod-install`
+
 #### misc
 
 When building, generating keystore in the cdloud failed (500). It worked upon retry.
