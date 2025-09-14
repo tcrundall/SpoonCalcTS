@@ -131,6 +131,11 @@ export const listActivities = async () => {
   }
 };
 
+export const deleteActivity = (id: string) => {
+  console.log(`Deleteing activity with id ${id}`);
+  db.execAsync(`delete from activities where id == "${id}"`);
+};
+
 // type Symptom = {
 //   pain: string;
 //   nausea: string;

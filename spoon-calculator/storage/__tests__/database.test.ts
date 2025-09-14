@@ -3,6 +3,7 @@ import {
   Activity,
   NewActivity,
   createActivitiesTable,
+  deleteActivity,
   initialiseDatabase,
   listActivities,
   saveActivity,
@@ -111,5 +112,19 @@ describe("database", () => {
 
     // assert
     expect(mocks.getAllAsync).toHaveBeenCalledOnce();
+  });
+
+  it("deletes an activity", () => {
+    // arrange
+    const idToDelete = "id-to-delete";
+    const expectedSql = 'delete from activities where id == "id-to-delete"';
+
+    // act
+    deleteActivity(idToDelete);
+
+    // assert
+    expect(mocks.execAsync).toHaveBeenCalledExactlyOnceWith(
+      expect.stringContaining(expectedSql),
+    );
   });
 });

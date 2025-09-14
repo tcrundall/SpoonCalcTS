@@ -27,9 +27,8 @@ react native.
 - [x] initialise table
 - [x] add adder
 - [x] add updater
-- [ ] add deleter
-- [ ] provide button that inserts dummy values
-- [ ] add unit tests?
+- [x] add deleter
+- [x] add unit tests
 
 ### feature 2: log activity
 
