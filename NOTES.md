@@ -22,6 +22,14 @@ react native.
 
 ### feature 10: set up activity database
 
+- [x] decide contents
+    - remember, no derived values
+- [x] initialise table
+- [x] add adder
+- [x] add updater
+- [x] add deleter
+- [x] add unit tests
+
 ### feature 2: log activity
 
 - [ ] add activity logger screen
@@ -46,6 +54,10 @@ react native.
 ### feature 8: build and deploy
 
 ### feature 9: release to beta testers
+
+### feature 11: add security
+
+- [ ] sanitise input before creating SQL requests
 
 ## notes
 
@@ -180,6 +192,11 @@ Solution(?) seems to be starting app from repo at example checkout
 
 Or maybe, ensuring "Expo Go" run, and refreshing the expo go app
 `npx expo start --go`
+
+#### sql formatting
+
+Tried to get sqlfluff to format my SQL strings, however it could not parse the strings, and even
+when it could parse, it didn't apply the kind of formatting/indenting I was hoping for.
 
 #### misc
 

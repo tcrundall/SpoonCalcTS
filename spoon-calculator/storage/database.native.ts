@@ -1,9 +1,7 @@
+import dayjs from "dayjs";
 import * as SQLite from "expo-sqlite";
 
-type SimpleEntry = {
-  id: string;
-  name: string;
-}
+type SimpleEntry = { id: string; name: string };
 
 export const logToConsole = (msg: string) => {
   console.log(msg);
@@ -14,27 +12,27 @@ const db = SQLite.openDatabaseSync(databaseName);
 
 export const initialiseDatabase = async () => {
   await db.execAsync(
-    "CREATE TABLE IF NOT EXISTS items (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT);"
+    "CREATE TABLE IF NOT EXISTS items (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT);",
   );
-}
+};
 
 export const myOpenDatabase = async () => {
-  console.log("Storage::successfully opened a database!")
-}
+  console.log("Storage::successfully opened a database!");
+};
 
 export const addRow = async () => {
-  console.log("Storage::adding a row!")
-  await db.execAsync("INSERT INTO items ( name ) VALUES ( 'text' );")
-}
+  console.log("Storage::adding a row!");
+  await db.execAsync("INSERT INTO items ( name ) VALUES ( 'text' );");
+};
 
 export const listTable = async () => {
-  console.log("Storage::listing table!")
+  console.log("Storage::listing table!");
   const allRows: SimpleEntry[] = await db.getAllAsync("SELECT * from items");
   console.log("Entering for loop");
   for (const row of allRows) {
     console.log(row.id, row.name);
   }
-}
+};
 
 export type Activity = {
   id: string;
@@ -47,13 +45,7 @@ export type Activity = {
   endDate: string;
 };
 
-// type Symptom = {
-//   pain: string;
-//   nausea: string;
-//   fatigue: string;
-//   fluLike: string;
-//   sleepy: string;
-// }
+export type NewActivity = Omit<Activity, "id">;
 
 export const createActivitiesTable = async () => {
   db.withTransactionAsync(async () => {
@@ -67,71 +59,90 @@ export const createActivitiesTable = async () => {
           physicalLoad int,
           type int,
           qualifier int,
-          start datetime,
-          end datetime
+          startDate datetime,
+          endDate datetime
         );
-        `
+        `,
     );
-
-    const allRows: Activity[] = await db.getAllAsync("SELECT * from activities");
-
-    for (const row of allRows) {
-      console.log(row.id, row.name, row.cognitiveLoad);
-    }
   });
 };
 
-export const saveActivity = async (a: Activity) => {
+export const saveActivity = async (a: NewActivity) => {
   console.log("In saveActivity");
   db.withTransactionAsync(async () => {
     db.execAsync(
       `
       insert into activities
-        (name, cognitiveLoad, physicalLoad, type, qualifier, start, end)
+        (name, cognitiveLoad, physicalLoad, type, qualifier, startDate, endDate)
       values
-        ("${a.name}", "${a.cognitiveLoad}", "${a.physicalLoad}", "${a.type}", "${a.qualifier}", "${a.startDate}", "${a.endDate}")
-      `);
+        (
+          "${a.name}",
+          "${a.cognitiveLoad}",
+          "${a.physicalLoad}",
+          "${a.type}",
+          "${a.qualifier}",
+          "${a.startDate}",
+          "${a.endDate}"
+        )
+      `,
+    );
   });
   console.log("Added to activites...");
 };
 
+export const updateActivity = (a: Activity) => {
+  console.log("In updateActivity");
+  db.withTransactionAsync(async () => {
+    db.execAsync(
+      `
+      update activities
+      set
+        name = "${a.name}",
+        cognitiveLoad = "${a.cognitiveLoad}",
+        physicalLoad = "${a.physicalLoad}",
+        type = "${a.type}",
+        qualifier = "${a.qualifier}",
+        startDate = "${a.startDate}",
+        endDate = "${a.endDate}"
+      where
+        id = ${a.id}
+      `,
+    );
+  });
+  console.log("Updated activity...?");
+};
+
 export const listActivities = async () => {
-  console.log("Storage::listing activities!")
+  console.log("Storage::listing activities!");
 
   const allRows: Activity[] = await db.getAllAsync("SELECT * from activities");
   console.log("Entering for loop");
   for (const row of allRows) {
-    console.log(row.id, row.name, row.cognitiveLoad);
+    console.log(
+      row.id,
+      row.name,
+      row.cognitiveLoad,
+      row.physicalLoad,
+      row.type,
+      row.qualifier,
+      dayjs(row.startDate).format("HH:MM:SS"),
+      row.endDate,
+    );
   }
-}
+};
 
-// export const updateActivity = (a: Activity) => {
-//   console.log("In updateActivity");
-//   db.withTransactionAsync(async () => {
-//     // db.execAsync(`select * from activities where id = ${a.id};`, [], (_, { rows }) =>
-//     //   console.log(`Updating activity: ${JSON.stringify(rows)}`)
-//     // );
-//     db.execAsync(
-//       `
-//       update activities
-//       set
-//         name = "${a.name}",
-//         cognitiveLoad = "${a.cognitiveLoad}",
-//         physicalLoad = "${a.physicalLoad}",
-//         type = "${a.type}",
-//         qualifier = "${a.qualifier}",
-//         start = "${a.startDate}",
-//         end = "${a.endDate}"
-//       where
-//         id = ${a.id}
-//       `
-//     );
-//     // db.execAsync(`select * from activities where id = ${a.id};`, [], (_, { rows }) =>
-//     //   console.log(`Updated activity: ${JSON.stringify(rows)}`)
-//     // );
-//   });
-//   console.log("Updated activity...?");
-// };
+export const deleteActivity = (id: string) => {
+  console.log(`Deleteing activity with id ${id}`);
+  db.execAsync(`delete from activities where id == "${id}"`);
+};
+
+// type Symptom = {
+//   pain: string;
+//   nausea: string;
+//   fatigue: string;
+//   fluLike: string;
+//   sleepy: string;
+// }
 //
 // export function createSymptomsTable() {
 //   db.withTransactionAsync(async () => {
