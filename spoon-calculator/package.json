@@ -12,7 +12,10 @@
     "test": "vitest"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
     "@expo/vector-icons": "^14.1.0",
+    "@mui/material": "^7.3.2",
     "@react-native-documents/picker": "^10.1.5",
     "@react-navigation/bottom-tabs": "^7.3.10",
     "@react-navigation/elements": "^2.3.8",
@@ -33,8 +36,8 @@
     "expo-symbols": "~0.4.5",
     "expo-system-ui": "~5.0.10",
     "expo-web-browser": "~14.2.0",
-    "react": "19.0.0",
-    "react-dom": "19.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "react-native": "0.79.5",
     "react-native-elements": "^3.4.3",
     "react-native-gesture-handler": "~2.24.0",
