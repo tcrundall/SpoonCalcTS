@@ -1,10 +1,7 @@
 import dayjs from "dayjs";
 import * as SQLite from "expo-sqlite";
 
-type SimpleEntry = {
-  id: string;
-  name: string;
-}
+type SimpleEntry = { id: string; name: string };
 
 export const logToConsole = (msg: string) => {
   console.log(msg);
@@ -14,28 +11,29 @@ const databaseName = "spooncalc-rn.db";
 const db = SQLite.openDatabaseSync(databaseName);
 
 export const initialiseDatabase = async () => {
+  console.log("Hello");
   await db.execAsync(
-    "CREATE TABLE IF NOT EXISTS items (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT);"
+    "CREATE TABLE IF NOT EXISTS items (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT);",
   );
-}
+};
 
 export const myOpenDatabase = async () => {
-  console.log("Storage::successfully opened a database!")
-}
+  console.log("Storage::successfully opened a database!");
+};
 
 export const addRow = async () => {
-  console.log("Storage::adding a row!")
-  await db.execAsync("INSERT INTO items ( name ) VALUES ( 'text' );")
-}
+  console.log("Storage::adding a row!");
+  await db.execAsync("INSERT INTO items ( name ) VALUES ( 'text' );");
+};
 
 export const listTable = async () => {
-  console.log("Storage::listing table!")
+  console.log("Storage::listing table!");
   const allRows: SimpleEntry[] = await db.getAllAsync("SELECT * from items");
   console.log("Entering for loop");
   for (const row of allRows) {
     console.log(row.id, row.name);
   }
-}
+};
 
 export type Activity = {
   id: string;
@@ -63,10 +61,12 @@ export const createActivitiesTable = async () => {
           startDate datetime,
           endDate datetime
         );
-        `
+        `,
     );
 
-    const allRows: Activity[] = await db.getAllAsync("SELECT * from activities");
+    const allRows: Activity[] = await db.getAllAsync(
+      "SELECT * from activities",
+    );
 
     for (const row of allRows) {
       console.log(row.id, row.name, row.cognitiveLoad);
@@ -91,20 +91,30 @@ export const saveActivity = async (a: Activity) => {
           "${a.startDate}",
           "${a.endDate}"
         )
-      `);
+      `,
+    );
   });
   console.log("Added to activites...");
 };
 
 export const listActivities = async () => {
-  console.log("Storage::listing activities!")
+  console.log("Storage::listing activities!");
 
   const allRows: Activity[] = await db.getAllAsync("SELECT * from activities");
   console.log("Entering for loop");
   for (const row of allRows) {
-    console.log(row.id, row.name, row.cognitiveLoad, row.physicalLoad, row.type, row.qualifier, dayjs(row.startDate).format("HH:MM:SS"), row.endDate);
+    console.log(
+      row.id,
+      row.name,
+      row.cognitiveLoad,
+      row.physicalLoad,
+      row.type,
+      row.qualifier,
+      dayjs(row.startDate).format("HH:MM:SS"),
+      row.endDate,
+    );
   }
-}
+};
 
 // export const updateActivity = (a: Activity) => {
 //   console.log("In updateActivity");
