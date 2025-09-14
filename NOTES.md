@@ -26,7 +26,7 @@ react native.
     - remember, no derived values
 - [x] initialise table
 - [x] add adder
-- [ ] add updater
+- [x] add updater
 - [ ] add deleter
 - [ ] provide button that inserts dummy values
 - [ ] add unit tests?

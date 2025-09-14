@@ -11,7 +11,6 @@ const databaseName = "spooncalc-rn.db";
 const db = SQLite.openDatabaseSync(databaseName);
 
 export const initialiseDatabase = async () => {
-  console.log("Hello");
   await db.execAsync(
     "CREATE TABLE IF NOT EXISTS items (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT);",
   );
@@ -46,6 +45,8 @@ export type Activity = {
   endDate: string;
 };
 
+export type NewActivity = Omit<Activity, "id">;
+
 export const createActivitiesTable = async () => {
   db.withTransactionAsync(async () => {
     db.execAsync(
@@ -63,18 +64,10 @@ export const createActivitiesTable = async () => {
         );
         `,
     );
-
-    const allRows: Activity[] = await db.getAllAsync(
-      "SELECT * from activities",
-    );
-
-    for (const row of allRows) {
-      console.log(row.id, row.name, row.cognitiveLoad);
-    }
   });
 };
 
-export const saveActivity = async (a: Activity) => {
+export const saveActivity = async (a: NewActivity) => {
   console.log("In saveActivity");
   db.withTransactionAsync(async () => {
     db.execAsync(
@@ -97,6 +90,28 @@ export const saveActivity = async (a: Activity) => {
   console.log("Added to activites...");
 };
 
+export const updateActivity = (a: Activity) => {
+  console.log("In updateActivity");
+  db.withTransactionAsync(async () => {
+    db.execAsync(
+      `
+      update activities
+      set
+        name = "${a.name}",
+        cognitiveLoad = "${a.cognitiveLoad}",
+        physicalLoad = "${a.physicalLoad}",
+        type = "${a.type}",
+        qualifier = "${a.qualifier}",
+        startDate = "${a.startDate}",
+        endDate = "${a.endDate}"
+      where
+        id = ${a.id}
+      `,
+    );
+  });
+  console.log("Updated activity...?");
+};
+
 export const listActivities = async () => {
   console.log("Storage::listing activities!");
 
@@ -116,34 +131,6 @@ export const listActivities = async () => {
   }
 };
 
-// export const updateActivity = (a: Activity) => {
-//   console.log("In updateActivity");
-//   db.withTransactionAsync(async () => {
-//     // db.execAsync(`select * from activities where id = ${a.id};`, [], (_, { rows }) =>
-//     //   console.log(`Updating activity: ${JSON.stringify(rows)}`)
-//     // );
-//     db.execAsync(
-//       `
-//       update activities
-//       set
-//         name = "${a.name}",
-//         cognitiveLoad = "${a.cognitiveLoad}",
-//         physicalLoad = "${a.physicalLoad}",
-//         type = "${a.type}",
-//         qualifier = "${a.qualifier}",
-//         start = "${a.startDate}",
-//         end = "${a.endDate}"
-//       where
-//         id = ${a.id}
-//       `
-//     );
-//     // db.execAsync(`select * from activities where id = ${a.id};`, [], (_, { rows }) =>
-//     //   console.log(`Updated activity: ${JSON.stringify(rows)}`)
-//     // );
-//   });
-//   console.log("Updated activity...?");
-// };
-//
 // type Symptom = {
 //   pain: string;
 //   nausea: string;
