@@ -32,8 +32,13 @@ react native.
 
 ### feature 2: log activity
 
-- [ ] add activity logger screen
+- [x] add activity logger screen
+- [x] add activity mapper
+- [x] add datetime methods
+- [x] fix: storing (or retrieval) of start time seems broken: `01:10:SS`
+    - was merely a mangled dayjs format call
 - [ ] add log summary screen
+- [ ] use sql templating
 
 ### feature 3: plot spoons
 
@@ -173,6 +178,16 @@ However this does not work with Expo Go because they include custom native code.
 4. run with `npx expo start`
 5. hit `a` to open on android (should auto detect the open virtual android)
 6. changes are hot reloaded
+
+### layout
+
+Use view with flexbox props
+
+Links:
+- [flexbox basics](https://reactnative.dev/docs/flexbox)
+- [flexbox full props (with interactive example)](https://reactnative.dev/docs/layout-props)
+- [yoga playground](https://www.yogalayout.dev/playground)
+- [medium article "cheat sheet"](https://medium.com/wix-engineering/the-full-react-native-layout-cheat-sheet-a4147802405c)
 
 ### troubeshooting
 
