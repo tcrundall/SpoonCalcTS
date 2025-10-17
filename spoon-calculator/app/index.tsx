@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Alert, Button } from "react-native";
+import { View, Text, StyleSheet, Button } from "react-native";
 import { Link } from "expo-router";
 import * as Storage from "storage/database";
 import dayjs from "dayjs";
