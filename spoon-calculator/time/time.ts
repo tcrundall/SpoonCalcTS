@@ -10,7 +10,7 @@ export const getOffset = (time: DateTime<true>) => {
  * Useful for storing data in a timezone independent way
  */
 export const stripTimezone = (time: DateTime) => {
-  var timeWithoutZone = time.toISOTime()?.split("+")[0];
+  var timeWithoutZone = time.toISO()?.split("+")[0];
   if (timeWithoutZone == undefined) {
     throw Error;
   }
@@ -18,7 +18,7 @@ export const stripTimezone = (time: DateTime) => {
   return timeOverrideZone;
 };
 
-export const nowWithoutTZ = () => {
+export const getNowWithoutTZ = () => {
   return stripTimezone(DateTime.now());
 };
 
@@ -42,20 +42,32 @@ export const decrement1Hour = (time: DateTime) => {
  * Round to nearest 15 minutes, by incrementing by 7.5 mins
  * and rounding down to next earlier 15 minute mark
  */
-export const roundToNearest15 = (time: DateTime) => {
+export const roundToNearest15 = (time: DateTime): DateTime<true> => {
+  if (time.zoneName !== "UTC") {
+    throw Error("Expected to receive UTC time only");
+  }
+
   const timeInMillis = time.toMillis();
   const offsettedTime = timeInMillis + 7.5 * 60 * 1000;
   const overflow = offsettedTime % (15 * 60 * 1000);
   const roundedTimeInMillis = offsettedTime - overflow;
-  return DateTime.fromMillis(roundedTimeInMillis);
+  const withTZ = DateTime.fromMillis(roundedTimeInMillis).setZone("UTC");
+  const withoutTZ = stripTimezone(withTZ);
+
+  if (!withoutTZ.isValid) {
+    throw Error("Something went wrong when rounding time");
+  }
+  return withoutTZ;
 };
 
 export const nowWith15MinResolution = () => {
-  return roundToNearest15(DateTime.now());
+  return roundToNearest15(getNowWithoutTZ());
 };
 
 export const formatDate = (time: DateTime) => {
-  if (time.toFormat("YYYY-MM-dd") !== DateTime.now().toFormat("YYYY-MM-dd")) {
+  if (
+    time.toFormat("YYYY-MM-dd") !== getNowWithoutTZ().toFormat("YYYY-MM-dd")
+  ) {
     return time.toFormat("dd-MM-yyyy");
   }
   return "";
