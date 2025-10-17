@@ -125,7 +125,7 @@ export const listActivities = async () => {
       row.physicalLoad,
       row.type,
       row.qualifier,
-      dayjs(row.startDate).format("HH:MM:SS"),
+      row.startDate,
       row.endDate,
     );
   }
