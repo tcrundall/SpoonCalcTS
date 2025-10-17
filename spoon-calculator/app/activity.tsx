@@ -5,13 +5,21 @@ import { ButtonGroup } from "@rneui/themed";
 import { nowWith15MinResolution } from "@/time/time";
 import TimePicker from "@/components/TimePicker";
 import { DateTime } from "luxon";
+import { saveActivity } from "@/storage/database";
+import {
+  activityQualifierMap,
+  activityTypeMap,
+  cognitiveLoadMap,
+  mapActivityViewToActivityDto,
+  physicalLoadMap,
+} from "@/mappers/activity";
 
 const borderWidth = 5;
 
 export default function LogScreen() {
   const [activityName, setActivityName] = useState("");
-  const [physLoadIndex, setPhysLoadIndex] = useState(null);
-  const [cogLoadIndex, setCogLoadIndex] = useState(null);
+  const [physLoadIndex, setPhysLoadIndex] = useState(0);
+  const [cogLoadIndex, setCogLoadIndex] = useState(0);
   const [typeIndex, setTypeIndex] = useState(null);
   const [qualifierIndex, setQualifierIndex] = useState(null);
   const [startTime, setStartTime] = useState(nowWith15MinResolution());
@@ -22,7 +30,7 @@ export default function LogScreen() {
       <View style={styles.activityLogger}>
         <View style={styles.inputContainer}>
           <Text style={{ fontSize: 30, alignSelf: "center" }}>
-            Log an activity
+            Log an activity!!!
           </Text>
           <TextInput
             autoFocus={true}
@@ -42,13 +50,9 @@ export default function LogScreen() {
             containerStyle={styles.buttonGroup}
             buttonStyle={styles.buttonInGroup}
             selectedButtonStyle={styles.selectedButton}
-            buttons={[
-              <Text>0</Text>,
-              <Text>0.5</Text>,
-              <Text>1</Text>,
-              <Text>1.5</Text>,
-              <Text>2</Text>,
-            ]}
+            buttons={cognitiveLoadMap.map((load: number) => (
+              <Text key={load}>{load}</Text>
+            ))}
             selectedIndex={physLoadIndex}
             onPress={setPhysLoadIndex}
           />
@@ -59,13 +63,9 @@ export default function LogScreen() {
             containerStyle={styles.buttonGroup}
             buttonStyle={styles.buttonInGroup}
             selectedButtonStyle={styles.selectedButton}
-            buttons={[
-              <Text>0</Text>,
-              <Text>0.5</Text>,
-              <Text>1</Text>,
-              <Text>1.5</Text>,
-              <Text>2</Text>,
-            ]}
+            buttons={physicalLoadMap.map((load: number) => (
+              <Text key={load}>{load}</Text>
+            ))}
             selectedIndex={cogLoadIndex}
             onPress={setCogLoadIndex}
           />
@@ -76,13 +76,11 @@ export default function LogScreen() {
             containerStyle={styles.buttonGroup}
             buttonStyle={styles.buttonInGroup}
             selectedButtonStyle={styles.selectedButton}
-            buttons={[
-              <Text style={styles.buttonText}>Necessary</Text>,
-              <Text style={styles.buttonText}>Productive</Text>,
-              <Text style={styles.buttonText}>Leisure</Text>,
-              <Text style={styles.buttonText}>Ex</Text>,
-              <Text style={styles.buttonText}>Something</Text>,
-            ]}
+            buttons={activityTypeMap.map((type: string) => (
+              <Text style={styles.buttonText} key={type}>
+                {type}
+              </Text>
+            ))}
             selectedIndex={typeIndex}
             onPress={(arg) => {
               if (arg === typeIndex) {
@@ -99,13 +97,11 @@ export default function LogScreen() {
             containerStyle={styles.buttonGroup}
             buttonStyle={styles.buttonInGroup}
             selectedButtonStyle={styles.selectedButton}
-            buttons={[
-              <Text style={styles.buttonText}>Phone</Text>,
-              <Text style={styles.buttonText}>Screen</Text>,
-              <Text style={styles.buttonText}>Exercise</Text>,
-              <Text style={styles.buttonText}>Ex</Text>,
-              <Text style={styles.buttonText}>Something</Text>,
-            ]}
+            buttons={activityQualifierMap.map((qualifier: string) => (
+              <Text style={styles.buttonText} key={qualifier}>
+                {qualifier}
+              </Text>
+            ))}
             selectedIndex={qualifierIndex}
             onPress={(arg) => {
               if (arg === qualifierIndex) {
@@ -143,7 +139,16 @@ export default function LogScreen() {
             <Button
               title={"save"}
               onPress={() => {
-                console.log(activityName);
+                const activityView = {
+                  activityName,
+                  cogLoadIndex,
+                  physLoadIndex,
+                  typeIndex,
+                  qualifierIndex,
+                  startTime,
+                  endTime,
+                };
+                saveActivity(mapActivityViewToActivityDto(activityView));
               }}
             />
           </View>
@@ -175,16 +180,11 @@ const styles = StyleSheet.create({
   inputContainer: {
     flex: 1,
     borderWidth: borderWidth,
-    // minWidth: 300,
-    // maxWidth: 1000,
-    // maxHeight: 10000,
     flexDirection: "column",
-    // justifyContent: "flex-start",
     alignItems: "stretch",
     borderColor: "green",
   },
   actionButtons: {
-    // maxHeight: 90,
     paddingBottom: 20,
     flexDirection: "row",
     justifyContent: "space-evenly",
@@ -212,15 +212,12 @@ const styles = StyleSheet.create({
   },
   subTitleBox: {
     minHeight: 10,
-    // padding: 5,
     margin: 5,
     alignSelf: "center", // TODO: Understand how to center text instead of entire view
     // textAlign: "center",
     textAlignVertical: "bottom",
-
     borderWidth: borderWidth,
     borderColor: "orange",
-    // backgroundColor: "purple",
   },
   subTitle: {
     fontSize: 20,
