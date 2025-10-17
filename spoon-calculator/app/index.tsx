@@ -46,7 +46,6 @@ export default function HomeScreen() {
           console.log(dayjs().format());
           console.log(dayjs().add(1, "day").format());
           Storage.saveActivity({
-            id: "",
             name: "My activity",
             cognitiveLoad: 1,
             physicalLoad: 1,
@@ -66,11 +65,12 @@ export default function HomeScreen() {
           console.log("Done");
         }}
       />
-      <Link href="/activity">View activity</Link>
+      <Link href="/activity">Log activity</Link>
       <Link href="/data">View data</Link>
       <Link href="/logs">View logs</Link>
       <Link href="/plots">View plots</Link>
       <Link href="/symptoms">View symptoms</Link>
+      <Link href="/time-picker">Time picker</Link>
     </View>
   );
 }
