@@ -2,6 +2,7 @@ import { expect, describe, it } from "vitest";
 import {
   decrement15Mins,
   decrement1Hour,
+  getNowWithoutTZ,
   getOffset as getOffsetInMinutes,
   increment15Mins,
   increment1Hour,
@@ -71,10 +72,38 @@ describe("simple test", () => {
     expect(durationInMinutes).toEqual(offset);
   });
 
+  it("creates now without timezone", () => {
+    // arrange
+    const nowWithoutTZ = getNowWithoutTZ();
+    const nowLocal = DateTime.now();
+
+    // act + assert
+    expect(nowWithoutTZ.zoneName).toEqual("UTC");
+    // TODO: use an object comparison
+    expect(nowWithoutTZ.month).toEqual(nowLocal.month);
+    expect(nowWithoutTZ.day).toEqual(nowLocal.day);
+    expect(nowWithoutTZ.hour).toEqual(nowLocal.hour);
+    expect(nowWithoutTZ.minute).toEqual(nowLocal.minute);
+  });
+
+  it("creates zone independent times", () => {
+    // arrange
+    const timeToStrip = DateTime.local(2000, 1, 1, 12, 0, 0, {
+      zone: "Europe/Berlin",
+    });
+    const expectedTime = DateTime.local(2000, 1, 1, 12, 0, 0, { zone: "UTC" });
+
+    // act
+    const timeWithoutTZ = stripTimezone(timeToStrip);
+
+    // assert
+    expect(timeWithoutTZ).toEqual(expectedTime);
+  });
+
   it("rounds down to nearest 15 mins", () => {
     // arrange
-    const timeToRound = DateTime.local(2000, 1, 1, 0, 7, 29);
-    const expectedTime = DateTime.local(2000, 1, 1, 0, 0, 0);
+    const timeToRound = stripTimezone(DateTime.local(2000, 1, 1, 0, 7, 29));
+    const expectedTime = stripTimezone(DateTime.local(2000, 1, 1, 0, 0, 0));
 
     // act
     const roundedTime = roundToNearest15(timeToRound);
@@ -85,13 +114,23 @@ describe("simple test", () => {
 
   it("rounds up to nearest 15 mins", () => {
     // arrange
-    const timeToRound = DateTime.local(2000, 1, 1, 0, 7, 30);
-    const expectedTime = DateTime.local(2000, 1, 1, 0, 15, 0);
+    const timeToRound = stripTimezone(DateTime.local(2000, 1, 1, 0, 7, 30));
+    const expectedTime = stripTimezone(DateTime.local(2000, 1, 1, 0, 15, 0));
 
     // act
     const roundedTime = roundToNearest15(timeToRound);
 
     // assert
     expect(roundedTime).toEqual(expectedTime);
+  });
+
+  it("rounding throws error on non-UTC time", () => {
+    // arrange
+    const nonUtcTime = DateTime.now().setZone("Europe/Berlin");
+
+    // act + assert
+    expect(() => {
+      roundToNearest15(nonUtcTime);
+    }).toThrowError("Expected to receive UTC time only");
   });
 });
