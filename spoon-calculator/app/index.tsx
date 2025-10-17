@@ -70,7 +70,6 @@ export default function HomeScreen() {
       <Link href="/logs">View logs</Link>
       <Link href="/plots">View plots</Link>
       <Link href="/symptoms">View symptoms</Link>
-      <Link href="/time-picker">Time picker</Link>
     </View>
   );
 }

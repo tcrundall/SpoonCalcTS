@@ -2,6 +2,11 @@ import { View, Text, StyleSheet, Button } from "react-native";
 import { useState } from "react";
 import { TextInput } from "react-native";
 import { ButtonGroup } from "@rneui/themed";
+import { nowWith15MinResolution } from "@/time/time";
+import TimePicker from "@/components/TimePicker";
+import { DateTime } from "luxon";
+
+const borderWidth = 5;
 
 export default function LogScreen() {
   const [activityName, setActivityName] = useState("");
@@ -9,12 +14,16 @@ export default function LogScreen() {
   const [cogLoadIndex, setCogLoadIndex] = useState(null);
   const [typeIndex, setTypeIndex] = useState(null);
   const [qualifierIndex, setQualifierIndex] = useState(null);
+  const [startTime, setStartTime] = useState(nowWith15MinResolution());
+  const [endTime, setEndTime] = useState(nowWith15MinResolution());
 
   return (
     <View style={styles.view}>
       <View style={styles.activityLogger}>
         <View style={styles.inputContainer}>
-          <Text style={{ fontSize: 30 }}>Log an activity</Text>
+          <Text style={{ fontSize: 30, alignSelf: "center" }}>
+            Log an activity
+          </Text>
           <TextInput
             autoFocus={true}
             placeholder="Activity name"
@@ -106,6 +115,20 @@ export default function LogScreen() {
               }
             }}
           />
+          <View style={styles.subTitleBox}>
+            <Text style={styles.subTitle}>Start Time</Text>
+          </View>
+          <TimePicker
+            time={startTime}
+            setTime={(time: DateTime) => setStartTime(time)}
+          />
+          <View style={styles.subTitleBox}>
+            <Text style={styles.subTitle}>End Time</Text>
+          </View>
+          <TimePicker
+            time={endTime}
+            setTime={(time: DateTime) => setEndTime(time)}
+          />
         </View>
         <View style={styles.actionButtons}>
           <View style={styles.actionButton}>
@@ -136,7 +159,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "stretch",
-    borderWidth: 5,
+    borderWidth: borderWidth,
     borderColor: "purple",
     backgroundColor: "grey",
   },
@@ -144,28 +167,28 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     alignItems: "stretch",
-    borderWidth: 5,
+    borderWidth: borderWidth,
     borderColor: "orange",
     minWidth: 200,
     maxWidth: 400,
   },
   inputContainer: {
     flex: 1,
-    borderWidth: 5,
+    borderWidth: borderWidth,
     // minWidth: 300,
     // maxWidth: 1000,
     // maxHeight: 10000,
     flexDirection: "column",
     // justifyContent: "flex-start",
-    alignItems: "center",
+    alignItems: "stretch",
     borderColor: "green",
   },
   actionButtons: {
     // maxHeight: 90,
-    paddingBottom: 10,
+    paddingBottom: 20,
     flexDirection: "row",
     justifyContent: "space-evenly",
-    borderWidth: 5,
+    borderWidth: borderWidth,
   },
   buttonGroup: {
     flexDirection: "row",
@@ -182,7 +205,7 @@ const styles = StyleSheet.create({
   },
   actionButton: {
     flex: 1,
-    borderWidth: 1,
+    borderWidth: borderWidth,
   },
   buttonText: {
     fontSize: 10,
@@ -191,8 +214,12 @@ const styles = StyleSheet.create({
     minHeight: 10,
     // padding: 5,
     margin: 5,
-    // alignSelf: "stretch",
-    justifyContent: "center",
+    alignSelf: "center", // TODO: Understand how to center text instead of entire view
+    // textAlign: "center",
+    textAlignVertical: "bottom",
+
+    borderWidth: borderWidth,
+    borderColor: "orange",
     // backgroundColor: "purple",
   },
   subTitle: {
