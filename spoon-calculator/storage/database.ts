@@ -59,32 +59,6 @@ var mockActivityDtos: Activity[] = [
   },
 ];
 
-export const logToConsole = (msg: string) => {
-  console.log(msg);
-};
-
-export const initialiseDatabase = async () => {
-  console.log("(NOT) initialising database");
-};
-
-export const myOpenDatabase = async () => {
-  console.log("(NOT) Storage::successfully opened a database!");
-};
-
-export const addRow = async () => {
-  console.log("(NOT) Storage::adding a row!");
-};
-
-export const getActivitiesOnDay = (dateTime: DateTime<true>): Activity[] => {
-  console.log("(NOT) Storage::getting table!");
-  const day = dateTime.toISODate();
-  return mockActivityDtos.filter((a) => RegExp(`${day}`).test(a.startDate));
-};
-
-export const listTable = async () => {
-  console.log("(NOT) Storage::listing table!");
-};
-
 export const createActivitiesTable = async () => {
   console.log("(NOT) Storage::creating activities table!");
 };
@@ -103,4 +77,10 @@ export const deleteActivity = (id: string) => {
   console.log(`(NOT) Deleteing activity with id ${id}`);
   mockActivityDtos = mockActivityDtos.filter((a) => a.id !== id);
   console.log(mockActivityDtos);
+};
+
+export const getActivitiesOnDay = (dateTime: DateTime<true>): Activity[] => {
+  console.log("(NOT) Storage::getting table!");
+  const day = dateTime.toISODate();
+  return mockActivityDtos.filter((a) => RegExp(`${day}`).test(a.startDate));
 };

@@ -4,7 +4,7 @@ import * as Storage from "storage/database";
 
 export default function RootLayout() {
   (async () => {
-    await Storage.initialiseDatabase();
+    await Storage.createActivitiesTable();
   })();
 
   return (

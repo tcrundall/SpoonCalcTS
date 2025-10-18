@@ -1,38 +1,8 @@
 import { DateTime } from "luxon";
 import * as SQLite from "expo-sqlite";
 
-type SimpleEntry = { id: string; name: string };
-
-export const logToConsole = (msg: string) => {
-  console.log(msg);
-};
-
 const databaseName = "spooncalc-rn.db";
 const db = SQLite.openDatabaseSync(databaseName);
-
-export const initialiseDatabase = async () => {
-  await db.execAsync(
-    "CREATE TABLE IF NOT EXISTS items (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT);",
-  );
-};
-
-export const myOpenDatabase = async () => {
-  console.log("Storage::successfully opened a database!");
-};
-
-export const addRow = async () => {
-  console.log("Storage::adding a row!");
-  await db.execAsync("INSERT INTO items ( name ) VALUES ( 'text' );");
-};
-
-export const listTable = async () => {
-  console.log("Storage::listing table!");
-  const allRows: SimpleEntry[] = await db.getAllAsync("SELECT * from items");
-  console.log("Entering for loop");
-  for (const row of allRows) {
-    console.log(row.id, row.name);
-  }
-};
 
 export type Activity = {
   id: string;
