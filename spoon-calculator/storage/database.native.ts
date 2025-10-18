@@ -1,5 +1,4 @@
 import { DateTime } from "luxon";
-import { getNowWithoutTZ } from "../time/time";
 import * as SQLite from "expo-sqlite";
 
 type SimpleEntry = { id: string; name: string };
@@ -69,46 +68,54 @@ export const createActivitiesTable = async () => {
 };
 
 export const saveActivity = async (a: NewActivity) => {
-  console.log("In saveActivity");
   db.withTransactionAsync(async () => {
-    db.execAsync(
+    const statement = await db.prepareAsync(
       `
       insert into activities
         (name, cognitiveLoad, physicalLoad, type, qualifier, startDate, endDate)
       values
-        (
-          "${a.name}",
-          "${a.cognitiveLoad}",
-          "${a.physicalLoad}",
-          "${a.type}",
-          "${a.qualifier}",
-          "${a.startDate}",
-          "${a.endDate}"
-        )
+        ($name, $cognitiveLoad, $physicalLoad, $type, $qualifier, $startDate, $endDate)
       `,
     );
+    await statement.executeAsync({
+      $name: a.name,
+      $cognitiveLoad: a.cognitiveLoad,
+      $physicalLoad: a.physicalLoad,
+      $type: a.type,
+      $qualifier: a.qualifier,
+      $startDate: a.startDate,
+      $endDate: a.endDate,
+    });
   });
-  console.log("Added to activites...");
 };
 
-export const updateActivity = (a: Activity) => {
-  console.log("In updateActivity");
+export const updateActivity = async (a: Activity) => {
   db.withTransactionAsync(async () => {
-    db.execAsync(
+    const statement = await db.prepareAsync(
       `
       update activities
       set
-        name = "${a.name}",
-        cognitiveLoad = "${a.cognitiveLoad}",
-        physicalLoad = "${a.physicalLoad}",
-        type = "${a.type}",
-        qualifier = "${a.qualifier}",
-        startDate = "${a.startDate}",
-        endDate = "${a.endDate}"
+        name = $name,
+        cognitiveLoad = $cognitiveLoad,
+        physicalLoad = $physicalLoad,
+        type = $type,
+        qualifier = $qualifier,
+        startDate = $startDate,
+        endDate = $endDate
       where
-        id = ${a.id}
+        id = $id
       `,
     );
+    await statement.executeAsync({
+      $name: a.name,
+      $cognitiveLoad: a.cognitiveLoad,
+      $physicalLoad: a.physicalLoad,
+      $type: a.type,
+      $qualifier: a.qualifier,
+      $startDate: a.startDate,
+      $endDate: a.endDate,
+      $id: a.id,
+    });
   });
   console.log("Updated activity...?");
 };
@@ -136,28 +143,12 @@ export const getActivitiesOnDay = (dateTime: DateTime<true>): Activity[] => {
   return allRows;
 };
 
-export const listActivities = async () => {
-  console.log("Storage::listing activities!");
-
-  const allRows: Activity[] = await db.getAllAsync("SELECT * from activities");
-  console.log("Entering for loop");
-  for (const row of allRows) {
-    console.log(
-      row.id,
-      row.name,
-      row.cognitiveLoad,
-      row.physicalLoad,
-      row.type,
-      row.qualifier,
-      row.startDate,
-      row.endDate,
-    );
-  }
-};
-
-export const deleteActivity = (id: string) => {
+export const deleteActivity = async (id: string) => {
   console.log(`Deleteing activity with id ${id}`);
-  db.execAsync(`delete from activities where id == "${id}"`);
+  const statement = await db.prepareAsync(
+    "delete from activities where id == $id",
+  );
+  statement.executeAsync({ $id: id });
 };
 
 // type Symptom = {

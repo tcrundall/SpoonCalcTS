@@ -37,8 +37,8 @@ react native.
 - [x] add datetime methods
 - [x] fix: storing (or retrieval) of start time seems broken: `01:10:SS`
     - was merely a mangled dayjs format call
-- [ ] add log summary screen
-- [ ] use sql templating
+- [x] add log summary screen
+- [x] use sql templating
 
 ### feature 3: plot spoons
 
