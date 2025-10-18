@@ -4,8 +4,6 @@ import {
   NewActivity,
   createActivitiesTable,
   deleteActivity,
-  initialiseDatabase,
-  listActivities,
   saveActivity,
   updateActivity,
 } from "../database.native";
@@ -51,16 +49,6 @@ beforeEach(() => {
 });
 
 describe("database", () => {
-  it("creates a table if not exists upon initialisation", async () => {
-    // arrange + act
-    await initialiseDatabase();
-
-    // assert
-    expect(mocks.execAsync).toHaveBeenCalledExactlyOnceWith(
-      expect.stringContaining("CREATE TABLE IF NOT EXISTS"),
-    );
-  });
-
   it("creates activity table if not exists", async () => {
     // arrange + act
     await createActivitiesTable();
