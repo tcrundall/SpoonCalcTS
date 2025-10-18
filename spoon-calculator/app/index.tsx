@@ -15,7 +15,11 @@ export default function HomeScreen() {
           View logs
         </Text>
       </Link>
-      <Link href="/data">View data</Link>
+      <Link href="/data">
+        <Text style={{ fontSize: 40, backgroundColor: "white" }}>
+          Manage data
+        </Text>
+      </Link>
       <Link href="/plots">View plots</Link>
       <Link href="/symptoms">View symptoms</Link>
     </View>

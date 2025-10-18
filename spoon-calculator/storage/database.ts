@@ -80,7 +80,12 @@ export const deleteActivity = (id: string) => {
 };
 
 export const getActivitiesOnDay = (dateTime: DateTime<true>): Activity[] => {
-  console.log("(NOT) Storage::getting table!");
+  console.log("(NOT) Storage::getting activities on day!");
   const day = dateTime.toISODate();
   return mockActivityDtos.filter((a) => RegExp(`${day}`).test(a.startDate));
+};
+
+export const getAllAcitivites = (): Activity[] => {
+  console.log("(NOT) Storage::getting all activities!");
+  return mockActivityDtos;
 };

@@ -113,6 +113,23 @@ export const getActivitiesOnDay = (dateTime: DateTime<true>): Activity[] => {
   return allRows;
 };
 
+export const getAllAcitivites = (): Activity[] => {
+  const allRows: Activity[] = db.getAllSync("SELECT * from activities");
+  for (const row of allRows) {
+    console.log(
+      row.id,
+      row.name,
+      row.cognitiveLoad,
+      row.physicalLoad,
+      row.type,
+      row.qualifier,
+      row.startDate,
+      row.endDate,
+    );
+  }
+  return allRows;
+};
+
 export const deleteActivity = async (id: string) => {
   console.log(`Deleteing activity with id ${id}`);
   const statement = await db.prepareAsync(
