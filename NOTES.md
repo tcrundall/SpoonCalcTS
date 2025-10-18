@@ -64,6 +64,18 @@ react native.
 
 - [ ] sanitise input before creating SQL requests
 
+### feature 12: log activity QoL
+
+- [ ] validate end is after start, and no overlapping
+- [ ] leave to home screen after creation (also on cancel)
+- [ ] edit events
+
+### feature 13: improve display
+
+- [ ] sort activities
+- [ ] switch between calendar and list
+- [ ] add color labels for quick overview of type/qualifier
+
 ## notes
 
 ### links
@@ -94,6 +106,11 @@ Install "Expo Go" app
 
 ### building app
 
+Questions:
+- [ ] can a development build load new changes?
+
+
+Links:
 - [create a build](https://docs.expo.dev/develop/development-builds/create-a-build/)
 - [bundletool docs](https://developer.android.com/tools/bundletool#generate-sdk-archive-from-sdk-bundle)
 - [stack overflow post](https://stackoverflow.com/questions/50419286/install-android-app-bundle-on-device)
@@ -108,6 +125,9 @@ Install "Expo Go" app
     ```bash
     npm install -g eas-cli && eas login
     ```
+
+#### Development build
+
 4. Build
     ```bash
     eas build --platform android --profile development
@@ -116,16 +136,29 @@ Install "Expo Go" app
 But... app seems to need a "development server". Neat for debugging. But not what I want for long
 term use.
 
+- Use QR code from expo EAS page to download app
+- Start development build on host
+- Open spoon calculator app
+- Use phone's camera to convert QR code into a link
+- Use link to connect manually to host
+
+#### Standalone
+
+See [stack overflow post](https://stackoverflow.com/questions/50419286/install-android-app-bundle-on-device)
+
 Building a non-dev version (production) yields an `.aab` file, which cannot directly be installed on
 a device. See [stack overflow post](https://stackoverflow.com/questions/50419286/install-android-app-bundle-on-device).
+
+Requirements:
+- [bundletool](https://github.com/google/bundletool/releases)
+    - [see docs here](https://developer.android.com/tools/bundletool)
+    - download the jar, and execute with `java -jar bunldletool-all[-version].jar`
 
 So I build with
 ```bash
 eas build --platform android
 # produces a .aab file
 # which I download
-
-bundletool build-apks --bundle=spoon-calc-2025-08-14T17-19.aab --output=spoon-calc-2025-08-14T17-19.apks
 ```
 
 But `apks` doesn't seem to be simply installable on my device.
@@ -136,7 +169,7 @@ Can get key with:
 ```bash
 eas credentials
 ```
-And then select Android > {Build profile} > Manage Credentials(?) > download to local(?)
+And then select Android > {Build profile} > credentials.json > download...
 
 For convenience you can convert the resulting json file into a sourceable env file to dump keys into
 your environment:
@@ -147,7 +180,35 @@ export KEYALIAS="alias"
 export KEYPASSWORD="pass:<password>"
 ```
 
-> *Note the preceeding `pass:` which indicates passwords are provided as text and not filepaths*
+Then convert bundle
+```bash
+bundletool build-apks --bundle=spoon-calc-2025-08-14T17-19.aab --output=spoon-calc-2025-08-14T17-19.apks
+bundletool build-apks \
+    --bundle=application-5d3095a6-736d-4e00-99e9-6ba533351a9e.aab \
+    --output=spoon-calc-2025-10-18.apks \
+    --key-pass $KEYPASSWORD \
+    --ks $KEYSTOREPATH \
+    --ks-pass $KEYSTOREPASSWORD \
+    --ks-key-alias $KEYALIAS
+```
+
+> *Note the preceding `pass:` which indicates passwords are provided as text and not filepaths*
+
+Now need to install. Can connect phone to laptop to determine various config values, but can also
+[prepare config manually](https://developer.android.com/tools/bundletool#manually_create_json).
+
+Note that [my phone](https://doc.e.foundation/devices/FP6) uses 64-bit ARM, so [`arm64-v8a`](https://developer.android.com/ndk/guides/abis#arm64-v8a)
+is appropriate, and has 432 PPI screen density.
+and [Android 15 corresponds to SDK 35](https://apilevels.com/)
+
+Performed following command:
+```bash
+bundletool extract-apks --apks=spoon-calc-2025-10-18.apks --output-dir fairphone-apk-set.apks --device-spec=device-spec.json
+```
+
+But when I tried to install `base-master.apk` onto phone it refused because "phone was incompatible"
+- I was using the wrong SDK version
+
 
 ### setting up sqlite
 
@@ -189,7 +250,16 @@ Links:
 - [yoga playground](https://www.yogalayout.dev/playground)
 - [medium article "cheat sheet"](https://medium.com/wix-engineering/the-full-react-native-layout-cheat-sheet-a4147802405c)
 
-### troubeshooting
+### filesystem
+
+- [expo docs on filesystem](https://docs.expo.dev/versions/latest/sdk/filesystem/)
+- [example with sharing](https://stackoverflow.com/questions/53423855/share-images-and-files-on-react-native-using-expo)
+- [expo docs on sharing](https://docs.expo.dev/versions/v53.0.0/sdk/sharing/)
+
+So can download arbitrary http, but how to download from secure cloud, e.g. google drive?
+- there is a [drive api wrapper](https://www.npmjs.com/package/@robinbobin/react-native-google-drive-api-wrapper)
+
+### troubleshooting
 
 #### Failed to download remote update
 
@@ -219,4 +289,4 @@ when it could parse, it didn't apply the kind of formatting/indenting I was hopi
 
 #### misc
 
-When building, generating keystore in the cdloud failed (500). It worked upon retry.
+When building, generating keystore in the cloud failed (500). It worked upon retry.
