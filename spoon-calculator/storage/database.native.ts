@@ -1,4 +1,5 @@
-import { getNowWithoutTZ } from "@/time/time";
+import { DateTime } from "luxon";
+import { getNowWithoutTZ } from "../time/time";
 import * as SQLite from "expo-sqlite";
 
 type SimpleEntry = { id: string; name: string };
@@ -112,13 +113,13 @@ export const updateActivity = (a: Activity) => {
   console.log("Updated activity...?");
 };
 
-export const getActivities = (): Activity[] => {
+export const getActivitiesOnDay = (dateTime: DateTime<true>): Activity[] => {
   // TODO: Add tests, particularly around midnight
   console.log("Storage::getting activities!");
-  const todayStart = getNowWithoutTZ().startOf("day").toISO();
-  const todayEnd = getNowWithoutTZ().endOf("day").toISO();
+  const dayStart = dateTime.startOf("day").toISO();
+  const dayEnd = dateTime.endOf("day").toISO();
   const allRows: Activity[] = db.getAllSync(
-    `SELECT * from activities where startDate between "${todayStart}" and "${todayEnd}"`,
+    `SELECT * from activities where startDate between "${dayStart}" and "${dayEnd}"`,
   );
   for (const row of allRows) {
     console.log(

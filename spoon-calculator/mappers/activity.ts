@@ -73,5 +73,14 @@ const safeDateTimeFromISO = (dateTimeStr: string): DateTime<true> => {
 };
 
 export const formatActivityDto = (a: Activity) => {
-  return `${a.name} | ${a.startDate} | ${a.endDate} | ${a.cognitiveLoad} | ${a.physicalLoad}`;
+  const startDate = safeDateTimeFromISO(a.startDate);
+  const endDate = safeDateTimeFromISO(a.endDate);
+  const activityLengthInHours = endDate.diff(startDate).as("hours");
+  const totalSpoons =
+    activityLengthInHours * (a.cognitiveLoad + a.physicalLoad);
+  return `${a.name} | ${formatTimeFromString(a.startDate)} | ${formatTimeFromString(a.endDate)} | ${a.cognitiveLoad} | ${a.physicalLoad} || ${totalSpoons}`;
+};
+
+const formatTimeFromString = (time: string): string => {
+  return safeDateTimeFromISO(time).toFormat("HH:mm");
 };
