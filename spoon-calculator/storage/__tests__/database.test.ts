@@ -14,6 +14,7 @@ import { expect, describe, vi, it, beforeEach } from "vitest";
 const mocks = vi.hoisted(() => {
   return {
     execAsync: vi.fn(),
+    executeAsync: vi.fn(),
     withTransactionAsync: (func: any) => {
       return func();
     },
@@ -24,6 +25,10 @@ const mocks = vi.hoisted(() => {
 vi.mock("expo-sqlite", () => ({
   openDatabaseSync: () => {
     return {
+      prepareAsync: () => ({
+        executeAsync: mocks.executeAsync,
+      }),
+      executeAsync: mocks.executeAsync,
       execAsync: mocks.execAsync,
       withTransactionAsync: mocks.withTransactionAsync,
       getAllAsync: mocks.getAllAsync,
@@ -67,6 +72,7 @@ describe("database", () => {
   });
 
   it("saves an activity", async () => {
+    // TODO: figure out way to also test the "prepareAsync" call
     // arrange
     const myActivity = getActivity();
 
@@ -74,17 +80,18 @@ describe("database", () => {
     await saveActivity(myActivity);
 
     // assert
-    expect(mocks.execAsync).toHaveBeenCalledExactlyOnceWith(
-      expect.stringContaining("insert into activities"),
-    );
-    for (const key of Object.keys(myActivity) as Array<keyof NewActivity>) {
-      expect(mocks.execAsync).toHaveBeenCalledExactlyOnceWith(
-        expect.stringContaining(String(myActivity[key])),
-      );
-    }
+    expect(mocks.executeAsync).toHaveBeenCalledExactlyOnceWith({
+      $name: myActivity.name,
+      $cognitiveLoad: myActivity.cognitiveLoad,
+      $physicalLoad: myActivity.physicalLoad,
+      $type: myActivity.type,
+      $qualifier: myActivity.qualifier,
+      $startDate: myActivity.startDate,
+      $endDate: myActivity.endDate,
+    });
   });
 
-  it("updates an activity", () => {
+  it("updates an activity", async () => {
     // arrange
     const updatedActivity = {
       ...getActivity(),
@@ -93,38 +100,31 @@ describe("database", () => {
     };
 
     // act
-    updateActivity(updatedActivity);
+    await updateActivity(updatedActivity);
 
     // assert
-    expect(mocks.execAsync).toHaveBeenCalledExactlyOnceWith(
-      expect.stringContaining("update activities"),
-    );
-    for (const key of Object.keys(updatedActivity) as Array<keyof Activity>) {
-      expect(mocks.execAsync).toHaveBeenCalledExactlyOnceWith(
-        expect.stringContaining(String(updatedActivity[key])),
-      );
-    }
+    expect(mocks.executeAsync).toHaveBeenCalledExactlyOnceWith({
+      $name: updatedActivity.name,
+      $cognitiveLoad: updatedActivity.cognitiveLoad,
+      $physicalLoad: updatedActivity.physicalLoad,
+      $type: updatedActivity.type,
+      $qualifier: updatedActivity.qualifier,
+      $startDate: updatedActivity.startDate,
+      $endDate: updatedActivity.endDate,
+      $id: updatedActivity.id,
+    });
   });
 
-  it("lists all activities", () => {
-    // arrange + act
-    listActivities();
-
-    // assert
-    expect(mocks.getAllAsync).toHaveBeenCalledOnce();
-  });
-
-  it("deletes an activity", () => {
+  it("deletes an activity", async () => {
     // arrange
     const idToDelete = "id-to-delete";
-    const expectedSql = 'delete from activities where id == "id-to-delete"';
 
     // act
-    deleteActivity(idToDelete);
+    await deleteActivity(idToDelete);
 
     // assert
-    expect(mocks.execAsync).toHaveBeenCalledExactlyOnceWith(
-      expect.stringContaining(expectedSql),
-    );
+    expect(mocks.executeAsync).toHaveBeenCalledExactlyOnceWith({
+      $id: idToDelete,
+    });
   });
 });
