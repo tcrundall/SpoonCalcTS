@@ -14,7 +14,7 @@ import {
   physicalLoadMap,
 } from "@/mappers/activity";
 
-const borderWidth = 5;
+const borderWidth = 0;
 
 export default function LogScreen() {
   const [activityName, setActivityName] = useState("");
