@@ -71,3 +71,7 @@ const safeDateTimeFromISO = (dateTimeStr: string): DateTime<true> => {
   }
   return dateTime;
 };
+
+export const formatActivityDto = (a: Activity) => {
+  return `${a.name} | ${a.startDate} | ${a.endDate} | ${a.cognitiveLoad} | ${a.physicalLoad}`;
+};

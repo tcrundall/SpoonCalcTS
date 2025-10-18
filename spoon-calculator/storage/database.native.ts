@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+import { getNowWithoutTZ } from "@/time/time";
 import * as SQLite from "expo-sqlite";
 
 type SimpleEntry = { id: string; name: string };
@@ -110,6 +110,29 @@ export const updateActivity = (a: Activity) => {
     );
   });
   console.log("Updated activity...?");
+};
+
+export const getActivities = (): Activity[] => {
+  // TODO: Add tests, particularly around midnight
+  console.log("Storage::getting activities!");
+  const todayStart = getNowWithoutTZ().startOf("day").toISO();
+  const todayEnd = getNowWithoutTZ().endOf("day").toISO();
+  const allRows: Activity[] = db.getAllSync(
+    `SELECT * from activities where startDate between "${todayStart}" and "${todayEnd}"`,
+  );
+  for (const row of allRows) {
+    console.log(
+      row.id,
+      row.name,
+      row.cognitiveLoad,
+      row.physicalLoad,
+      row.type,
+      row.qualifier,
+      row.startDate,
+      row.endDate,
+    );
+  }
+  return allRows;
 };
 
 export const listActivities = async () => {
