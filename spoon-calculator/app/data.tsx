@@ -4,6 +4,7 @@ import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
 import { getAllAcitivites } from "@/storage/database";
 import { getNowWithoutTZ } from "@/time/time";
+import { Dirs } from "react-native-file-access";
 
 const borderWidth = 5;
 
@@ -27,6 +28,13 @@ export default function DataScreen() {
     Sharing.shareAsync(csvUri);
   };
 
+  const importDatabase = async () => {
+    console.log("Importing database");
+    const sdCardDir = Dirs.SDCardDir;
+    console.log("Has access to sd card dir? ", sdCardDir);
+    console.log("Done");
+  };
+
   return (
     <View style={styles.view}>
       <View style={styles.container}>
@@ -39,7 +47,7 @@ export default function DataScreen() {
         </View>
         <View style={styles.contentBox}>
           <Button title="Export" onPress={exportDatabase} />
-          <Button title="Import" />
+          <Button title="Import" onPress={importDatabase} />
         </View>
       </View>
     </View>
