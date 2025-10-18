@@ -27,6 +27,10 @@ export const addRow = async () => {
   console.log("(NOT) Storage::adding a row!");
 };
 
+export const getActivities = async () => {
+  console.log("(NOT) Storage::getting table!");
+};
+
 export const listTable = async () => {
   console.log("(NOT) Storage::listing table!");
 };
