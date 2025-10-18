@@ -1,5 +1,6 @@
 import { expect, describe, it } from "vitest";
 import {
+  assertIsValid,
   decrement15Mins,
   decrement1Hour,
   getNowWithoutTZ,
@@ -88,10 +89,14 @@ describe("simple test", () => {
 
   it("creates zone independent times", () => {
     // arrange
-    const timeToStrip = DateTime.local(2000, 1, 1, 12, 0, 0, {
-      zone: "Europe/Berlin",
-    });
-    const expectedTime = DateTime.local(2000, 1, 1, 12, 0, 0, { zone: "UTC" });
+    const timeToStrip = assertIsValid(
+      DateTime.local(2000, 1, 1, 12, 0, 0, {
+        zone: "Europe/Berlin",
+      }),
+    );
+    const expectedTime = assertIsValid(
+      DateTime.local(2000, 1, 1, 12, 0, 0, { zone: "UTC" }),
+    );
 
     // act
     const timeWithoutTZ = stripTimezone(timeToStrip);
@@ -102,8 +107,12 @@ describe("simple test", () => {
 
   it("rounds down to nearest 15 mins", () => {
     // arrange
-    const timeToRound = stripTimezone(DateTime.local(2000, 1, 1, 0, 7, 29));
-    const expectedTime = stripTimezone(DateTime.local(2000, 1, 1, 0, 0, 0));
+    const timeToRound = stripTimezone(
+      assertIsValid(DateTime.local(2000, 1, 1, 0, 7, 29)),
+    );
+    const expectedTime = stripTimezone(
+      assertIsValid(DateTime.local(2000, 1, 1, 0, 0, 0)),
+    );
 
     // act
     const roundedTime = roundToNearest15(timeToRound);
@@ -114,8 +123,12 @@ describe("simple test", () => {
 
   it("rounds up to nearest 15 mins", () => {
     // arrange
-    const timeToRound = stripTimezone(DateTime.local(2000, 1, 1, 0, 7, 30));
-    const expectedTime = stripTimezone(DateTime.local(2000, 1, 1, 0, 15, 0));
+    const timeToRound = stripTimezone(
+      assertIsValid(DateTime.local(2000, 1, 1, 0, 7, 30)),
+    );
+    const expectedTime = stripTimezone(
+      assertIsValid(DateTime.local(2000, 1, 1, 0, 15, 0)),
+    );
 
     // act
     const roundedTime = roundToNearest15(timeToRound);

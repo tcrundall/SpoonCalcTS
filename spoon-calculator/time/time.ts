@@ -4,22 +4,30 @@ export const getOffset = (time: DateTime<true>) => {
   return time.zone.offset(time.toMillis());
 };
 
+export const assertIsValid = (time: DateTime): DateTime<true> => {
+  if (!time.isValid) throw Error;
+  return time;
+};
+
 /*
  * Replace timezone with UTC without changing actual value of time.
  *
  * Useful for storing data in a timezone independent way
  */
-export const stripTimezone = (time: DateTime) => {
+export const stripTimezone = (time: DateTime<true>): DateTime<true> => {
   var timeWithoutZone = time.toISO()?.split("+")[0];
-  if (timeWithoutZone == undefined) {
-    throw Error;
-  }
-  var timeOverrideZone = DateTime.fromISO(timeWithoutZone, { zone: "UTC" });
+  var timeOverrideZone = assertIsValid(
+    DateTime.fromISO(timeWithoutZone, { zone: "UTC" }),
+  );
   return timeOverrideZone;
 };
 
-export const getNowWithoutTZ = () => {
+export const getNowWithoutTZ = (): DateTime<true> => {
   return stripTimezone(DateTime.now());
+};
+
+export const getTodayDate = () => {
+  getNowWithoutTZ().toISODate();
 };
 
 export const increment15Mins = (time: DateTime) => {
@@ -51,12 +59,10 @@ export const roundToNearest15 = (time: DateTime): DateTime<true> => {
   const offsettedTime = timeInMillis + 7.5 * 60 * 1000;
   const overflow = offsettedTime % (15 * 60 * 1000);
   const roundedTimeInMillis = offsettedTime - overflow;
-  const withTZ = DateTime.fromMillis(roundedTimeInMillis).setZone("UTC");
+  const withTZ = assertIsValid(
+    DateTime.fromMillis(roundedTimeInMillis).setZone("UTC"),
+  );
   const withoutTZ = stripTimezone(withTZ);
-
-  if (!withoutTZ.isValid) {
-    throw Error("Something went wrong when rounding time");
-  }
   return withoutTZ;
 };
 
